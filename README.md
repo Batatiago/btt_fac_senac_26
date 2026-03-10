@@ -1,1 +1,3 @@
-# btt_fac_senac_js_26
+# Repositorio de Exercícios
+
+Meu repo de exercícios de JavaScript da Faculdade-Senac
