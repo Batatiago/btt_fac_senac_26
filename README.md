@@ -1,3 +1,3 @@
 # Repositorio de Exercícios
 
-Meu repo de exercícios de JavaScript da Faculdade-Senac
+Meu repo de exercícios da Faculdade-Senac
