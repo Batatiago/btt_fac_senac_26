@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      alert("Digite os tamanho dos lados de um triangulo!!!");
+      let ladoUm = Number(prompt("Digite o 1º lado:"));
+      let ladoDois = Number(prompt("Digite o 2º lado:"));
+      let ladoTres = Number(prompt("Digite o 3º lado:"));
+      let tipo = "";
+      let podeTriangulo = ladoUm < ladoDois + ladoTres && ladoDois < ladoUm + ladoTres && ladoTres < ladoUm + ladoDois;
+
+      if (!podeTriangulo) {
+        alert('Esses valores NÃO podem formar um triângulo.')
+      } else if (ladoUm === ladoDois && ladoDois === ladoTres) {
+        tipo = "Equilátero"; 
+      } else if (ladoUm === ladoDois || ladoUm === ladoTres || ladoDois === ladoTres) {
+        tipo = "Isósceles";
+      } else {
+        tipo = "Escaleno";
+      }
+
+      alert(`Esses valores formam um triângulo. Tipo: ${tipo}`);
+    </script>
+  </body>
+</html>

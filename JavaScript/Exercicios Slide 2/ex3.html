@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let preco = parseFloat(prompt("Digite o valor da compra"));
+        let condicao = parseInt(prompt("Digite o número correspondente a forma de pagamento até 3x sem juros:   " +
+            "1 - A Vista 10% Off | 2 - A Praso 2x | 3 - A Praso 3x"));
+
+        if (condicao == 1) {
+            alert(`A vista com desconto de 10% fica R$${(preco /= 1.10).toFixed(2)}`);
+        } else if (condicao == 2) {
+            alert(`Em 2x sem juros fica R$${(preco / 2).toFixed(2)} cada parcela`);
+        } else if (condicao == 3) {
+            alert(`Em 3x sem juros fica R$${(preco / 3).toFixed(2)} cada parcela`);
+        } else {
+            alert("Valor inválido!!!")
+        }
+    </script>
+</body>
+
+</html>

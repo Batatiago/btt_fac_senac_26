@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let limite = Number(prompt('Qual a Velocidade Permitida da Via? '));
+        let velocidade = Number(prompt('Qual a Velocidade Atingida? '));
+
+        if (velocidade <= limite) {
+            alert('Sem Multa!!!')
+        } else if (velocidade <= limite*1.20){
+            alert('Multa Leve!!!')
+        } else {
+            alert('Multa Grave!!!')
+        }
+    </script>
+</body>
+</html>
