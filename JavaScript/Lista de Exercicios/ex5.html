@@ -8,16 +8,30 @@
 </head>
 
 <body>
+  <h1>5. Verificação de Idade:</h1>
+   <p>
+     Peça ao usuário (com prompt) sua idade. 
+     o Se for menor que 12, mostre "Criança". 
+     o Se estiver entre 12 e 17, mostre "Adolescente". 
+     o Se for maior ou igual a 18, mostre "Adulto".
+   </p>
+   <input id="idadeInput" type="number" placeholder="Digite sua idade">
+   <button id="btn">Ok</button>
+   <p id="txt"></p>
   <script>
-    let idade = parseInt(prompt("Digite sua idade"));
+    let idadeInput = document.getElementById("idadeInput");
+    let btn = document.getElementById("btn");
 
-    if (idade < 12) {
-      alert("Criança");
-    } else if (idade >= 12 && idade <= 17) {
-      alert("Adolecente");
-    } else if (idade >= 18) {
-      alert("Adulto");
-    }
+    btn.addEventListener("click", function (){
+      let idade = idadeInput.value;
+      if (idade < 12) {
+        document.getElementById("txt").append(`Você é criaça com ${idade} anos!`);
+      } else if (idade >= 12 && idade <= 17) {
+        document.getElementById("txt").append(`Você é adolescente com ${idade} anos!`);
+      } else if (idade >= 18) {
+        document.getElementById("txt").append(`Você é adulto com ${idade} anos!`);
+      }
+    });
   </script>
 </body>
 

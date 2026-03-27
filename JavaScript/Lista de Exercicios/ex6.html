@@ -8,14 +8,24 @@
 </head>
 
 <body>
+  <h1>6. Número Par ou Ímpar:</h1>
+  <p>Receba um número via prompt e use if/else para verificar se é par ou ímpar.</p>
+  <input type="number" id="numero" placeholder="Digite um Número">
+  <button id="btn">Ok</button>
+  <p id="txt"></p>
   <script>
-    let numero = Number(prompt("Digite um número:"));
+    let numeroInput = document.getElementById("numero");
+    let btn = document.getElementById("btn");
 
-    if (numero % 2 === 0) {
-      alert("Par");
-    } else {
-      alert("Ímpar");
-    }
+    btn.addEventListener("click", function () {
+      let numero = numeroInput.value;
+
+      if (numero % 2 === 0) {
+        document.getElementById("txt").append(`${numero} é Par`);
+      } else {
+        document.getElementById("txt").append(`${numero} é Ímpar`);
+      };
+    });
   </script>
 </body>
 

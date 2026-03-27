@@ -8,17 +8,33 @@
 </head>
 
 <body>
-  <script>
-    let nota = Number(prompt("Digite sua Nota:"));
+  <h1>Nota de Aluno:</h1>
+  <p>Receba uma nota de 0 a 10.
+    <br>
+    o >= 7: "Aprovado".
+    <br>
+    o >= 5 e < 7: "Recuperação" .
+    <br>
+    o < 5: "Reprovado" . </p>
+      <input type="number" id="nota" placeholder="Digite sua Nota">
+      <button id="btn">Ok</button>
+      <p id="txt"></p>
+      <script>
+        let notaInput = document.getElementById("nota");
+        let btn = document.getElementById("btn")
 
-    if (nota >= 7) {
-      alert("Aprovado!!");
-    } else if (nota >= 5 && nota < 7) {
-      alert("Recuperação!!");
-    } else if (nota < 5) {
-      alert("Reprovado!!");
-    }
-  </script>
+        btn.addEventListener("click", function () {
+          let nota = notaInput.value;
+
+          if (nota >= 7) {
+            document.getElementById("txt").append("Aprovado !!");
+          } else if (nota >= 5 && nota < 7) {
+            document.getElementById("txt").append("Recuperação !!");
+          } else if (nota < 5) {
+            document.getElementById("txt").append("Reprovado !!");
+          }
+        });
+      </script>
 </body>
 
 </html>

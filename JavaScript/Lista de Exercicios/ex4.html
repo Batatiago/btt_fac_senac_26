@@ -8,13 +8,25 @@
 </head>
 
 <body>
+  <h1>4. Diferença de Escopo:</h1>
+  <p>
+    Declare uma variável let numero = 10 fora de um bloco {}.
+    <br>
+    Dentro do bloco, declare novamente let numero = 20.
+    <br>
+    Mostre o valor da variável dentro e fora do bloco com console.log.
+  </p>
+  <br><br>
+  <p id="numero"></p>
+  <p id="numeroBloco"></p>
+
   <script>
     let numero = 10;
     {
       let numero = 20;
-      console.log(numero);
-    }
-    console.log(numero);
+      document.getElementById("numeroBloco").append("Esse número esta declarado dentro de um bloco: " + numero)
+     }
+    document.getElementById("numero").append(`Esse número esta declarado fora do bloco: ${numero}`);
   </script>
 </body>
 
