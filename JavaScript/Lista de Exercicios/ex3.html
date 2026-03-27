@@ -8,13 +8,38 @@
 </head>
 
 <body>
+  <h1>3. Concatenação de Strings:</h1>
+  <p>Crie três variáveis (let nome, let sobrenome, let anoNascimento) e mostre no
+    console a frase:
+    <br>
+    "Olá, meu nome é &lt; nome completo &gt; e eu nasci em &lt; anoNascimento &gt;".
+    <br>
+    &lt; nome completo &gt; deve ser a concatenação de nome e sobrenome.
+  </p>
+  <input id="nomeInput" type="text" placeholder="Primeiro nome">
+  <br><br>
+  <input id="sobrenomeInput" type="text" placeholder="Sobrenome">
+  <br><br>
+  <input id="anoInput" type="number" placeholder="Data de nascimento">
+  <br><br>
+  <button id="btn">Ok</button>
+  <br><br>
+  <p id="txt"></p>
+
   <script>
-    let nome = "Tiago";
-    let sobrenome = "de Andrade Lima";
-    let anoNascimento = 2001;
-    console.log(
-      `Olá, meu nome é ${nome} ${sobrenome} e eu nasci em ${anoNascimento}`,
-    );
+    let nomeInput = document.getElementById("nomeInput");
+    let sobrenomeInput = document.getElementById("sobrenomeInput");
+    let anoNascimentoInput = document.getElementById("anoInput");
+    let btn = document.getElementById("btn")
+
+    btn.addEventListener("click", function () {
+      let nome = nomeInput.value;
+      let sobrenome = sobrenomeInput.value;
+      let anoNascimento = parseInt(anoNascimentoInput.value);
+
+      document.getElementById("txt").append(`Olá, meu nome é ${nome} ${sobrenome} e eu nasci em ${anoNascimento}`)
+      console.log(`Olá, meu nome é ${nome} ${sobrenome} e eu nasci em ${anoNascimento}`,);
+    });
   </script>
 </body>
 

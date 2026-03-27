@@ -8,11 +8,33 @@
 </head>
 
 <body>
+  <h1>2. Uso de const:</h1>
+  <p>a. Declare uma constante PI com valor 3.14159. Tente atribuir outro valor a PI e
+    veja o erro no console. Explique por que isso acontece.
+    <br><br>
+    b. Declare uma constante SemanasDoAno sem atribuir valor. Na linha seguinte
+    atribua o valor 52.
+    <br><br>
+    O que ocorre?
+  </p>
+  <p>PI retorna no conssole:
+    <br>
+    "Uncaught TypeError: Assignment to constant variable."
+    <br>
+    Significa que uma constante não pode ter o valor reatribuido.
+    <br><br>
+    Já com a constante:
+    <br>
+    "Uncaught SyntaxError: Missing initializer in const declaration"
+    <br>
+    Significa que uma constante não pode ser criada sem valor atribuido.
+  </p>
+
   <script>
-    const pi = 3.14159;
-    pi = 367;
-    console.log(pi);
-    // O valor de pi não pode ser alterado, pois é uma constante.
+    const PI = 3.14159;
+    PI = 367;
+    console.log(PI);
+    // O valor de PI não pode ser alterado, pois é uma constante.
 
     const SemanasDoAno;
     SemanasDoAno = 52;

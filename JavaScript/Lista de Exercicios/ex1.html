@@ -9,26 +9,27 @@
 
 <body>
   <h1>1. Declaração com let:</h1>
-  <p>Crie uma variável let idade e atribua sua idade. Depois, atribua um novo valor 
-representando a idade daqui a 5 anos. Mostre os dois valores no console: “Minha 
-idade hoje é &lt idade &gt e daqui a 5 anos será &lt nova_idade &gt”</p>
-<input id="campoNome" type="">
-<button id="btn">Ok</button>
-<p id="txt"></p>
+  <p>Crie uma variável let idade e atribua sua idade. Depois, atribua um novo valor
+    representando a idade daqui a 5 anos. Mostre os dois valores no console: “Minha
+    idade hoje é &lt; idade &gt; e daqui a 5 anos será &lt; nova_idade &gt;”</p>
+  <input id="campoNome" type="">
+  <button id="btn">Ok</button>
+  <br><br>
+  <p id="txt"></p>
   <script>
     let inputIdade = document.getElementById("campoNome")
     let btn = document.getElementById("btn")
-    
 
-    btn.addEventListener("click", function() {
+
+    btn.addEventListener("click", function () {
       let idade = parseInt(inputIdade.value);
       let novaIdade = idade + 5;
 
       document.getElementById("txt").append(`Minha idade hoje é ${idade} e daqui a 5 anos será ${novaIdade} !!`)
-    })
-    console.log(`Minha idade hoje é ${idade} e daqui a 5 anos será ${novaIdade}`);
-    
-    
+      console.log(`Minha idade hoje é ${idade} e daqui a 5 anos será ${novaIdade}`);
+    });
+
+
   </script>
 </body>
 
