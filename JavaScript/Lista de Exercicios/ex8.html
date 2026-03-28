@@ -8,11 +8,26 @@
 </head>
 
 <body>
+  <h1>8. Operador Ternário:</h1>
+  <p>Receba um número via prompt e mostre no console:
+    <br>
+    "Positivo" se maior que 0, "Negativo" se menor que 0, ou "Zero" caso contrário,
+    usando apenas operador ternário.
+  </p>
+  <input id="numeroInput" type="number" placeholder="Digite um Número">
+  <button id="btn">Ok</button>
+  <p id="txt"></p>
   <script>
-    let numero = Number(prompt("Digite um Número:"));
-    let result =
-      numero > 0 ? "Positivo!!" : numero == 0 ? "Zero!!" : "Negativo!!";
-    console.log(result);
+    let numeroInput = document.getElementById("numeroInput");
+    let btn = document.getElementById("btn");
+
+    btn.addEventListener("click", function () {
+      let numero = numeroInput.value;
+      let result = numero > 0 ? "Positivo!!" : numero == 0 ? "Zero!!" : "Negativo!!";
+
+      document.getElementById("txt").append(`O número ${numero} é ${result}`);
+      console.log(result);
+    })
   </script>
 </body>
 

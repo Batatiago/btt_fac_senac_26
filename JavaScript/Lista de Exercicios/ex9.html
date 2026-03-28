@@ -8,12 +8,21 @@
 </head>
 
 <body>
+  <h1>9. Tabuada com for:</h1>
+  <p>Receba um número e mostre a tabuada de 1 a 10 usando for.</p>
+  <input id="numeroInput" type="number" placeholder="Digite um Número">
+  <button id="btn">Ok</button>
+  <p id="txt"><br></p>
   <script>
-    let numero = Number(prompt("Digite um Número:"));
+    let numeroInput = document.getElementById("numeroInput");
+    let btn = document.getElementById("btn")
 
-    for (let multiplicador = 1; multiplicador < 11; multiplicador++) {
-      console.log(`${numero} X ${multiplicador} = ${numero * multiplicador}`);
-    }
+    btn.addEventListener("click", function () {
+      let numero = numeroInput.value;
+      for (let multiplicador = 1; multiplicador < 11; multiplicador++) {
+        document.getElementById("txt").innerHTML += `${numero} X ${multiplicador} = ${numero * multiplicador} <br>`;
+      }
+    });
   </script>
 </body>
 
