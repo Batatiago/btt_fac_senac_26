@@ -9,7 +9,116 @@
 </head>
 
 <body>
+    <h2>21. Escreva um programa para controlar uma fila de atendimento, deve guardar o
+        nome da pessoa ao clicar no botão "entrar na fila" e inserir no final de uma fila.
+    </h2>
+    <p>
+        Quando a pessoa for atendida, deve clicar no botão "atender" que vai retirar o
+        nome da pessoa que está no primeiro lugar na fila. Também guarde a data e hora
+        que a pessoa entrou na fila (use <strong>Date.now()</strong> para obter essa informação . Veja
+        como formatar a data usando <strong>Intl.DateTimeFormat</strong>).
+        <br><br>
+        Quando ela for atendida (retirada da fila), deve calcular quanto tempo levou para
+        ser atendida.
+        <br><br>
+        Use vetores para armazenar as informações. Para inserir no final da fila use o
+        método "push()" e para remover do início da fila use o método "shift()" . Crie um
+        vetor para armazenar o nome e a hora (hora, minutos e segundos) que a pessoa
+        entrou na fila. Em outro vetor armazene o nome, data e hora que pessoa entrou na
+        fila, data e hora que foi atendida e quanto tempo demorou para ser atendida.
+        Cada vez que uma pessoa entrar na fila ou for atendida deve exibir os dados
+        armazenados nos dois vetores.
+    </p>
+    <br><br>
 
+    <h3>Balcão de Atendimento</h3>
+    <input type="text" id="nomeInput" placeholder="Nome do Cliente">
+    <button id="btnEntrar" onclick="entrarNaFila()">Entrar na Fila</button>
+    <button id="btnAtender" onclick="atenderPessoa()">Atender</button>
+
+    <br><br>
+    <div id="resultadoFila"></div>
+    <br>
+    <div id="resultadoHistorico"></div>
+
+    <script>
+        let filaDeAtendimento = [];
+        let historicoDeAtendidos = [];
+
+        const formatadorHora = new Intl.DateTimeFormat('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const formatadorDataHora = new Intl.DateTimeFormat('pt-BR', { dateStyle: 'short', timeStyle: 'medium' });
+
+        function entrarNaFila() {
+            let nome = document.getElementById("nomeInput").value;
+
+            if (nome.trim() !== "") {
+                let tempoAgoraMs = Date.now();
+
+                let pessoa = {
+                    nome: nome,
+                    chegadaMs: tempoAgoraMs,
+                    chegadaHoraFormatada: formatadorHora.format(tempoAgoraMs),
+                    chegadaDataHoraFormatada: formatadorDataHora.format(tempoAgoraMs)
+                };
+
+                filaDeAtendimento.push(pessoa);
+
+                document.getElementById("nomeInput").value = "";
+
+                exibirDados();
+            }
+        }
+
+        function atenderPessoa() {
+            if (filaDeAtendimento.length > 0) {
+                let pessoaAtendida = filaDeAtendimento.shift();
+
+                let tempoSaidaMs = Date.now();
+
+                let tempoEsperaSegundos = Math.floor((tempoSaidaMs - pessoaAtendida.chegadaMs) / 1000);
+
+                let historico = {
+                    nome: pessoaAtendida.nome,
+                    entrou: pessoaAtendida.chegadaDataHoraFormatada,
+                    saiu: formatadorDataHora.format(tempoSaidaMs),
+                    tempoEspera: `${tempoEsperaSegundos} segundos`
+                };
+
+                historicoDeAtendidos.push(historico);
+
+                exibirDados();
+            } else {
+                alert("Ninguém na fila para atender!");
+            }
+        }
+
+        function exibirDados() {
+            let divFila = document.getElementById("resultadoFila");
+            let divHistorico = document.getElementById("resultadoHistorico");
+
+            let conteudoFilaHTML = "<h3>Fila Atual:</h3><ul>";
+            if (filaDeAtendimento.length === 0) {
+                conteudoFilaHTML += "<li>A fila está vazia.</li>";
+            } else {
+                for (let pessoa of filaDeAtendimento) {
+                    conteudoFilaHTML += `<li><strong>${pessoa.nome}</strong> - Chegou às: ${pessoa.chegadaHoraFormatada}</li>`;
+                }
+            }
+            conteudoFilaHTML += "</ul><hr>";
+            divFila.innerHTML = conteudoFilaHTML;
+
+            let conteudoHistoricoHTML = "<h3>Histórico de Atendimentos:</h3><ul>";
+            if (historicoDeAtendidos.length === 0) {
+                conteudoHistoricoHTML += "<li>Nenhum atendimento realizado ainda.</li>";
+            } else {
+                for (let registro of historicoDeAtendidos) {
+                    conteudoHistoricoHTML += `<li><strong>${registro.nome}</strong> | Entrada: ${registro.entrou} | Saída: ${registro.saiu} | Duração: <strong>${registro.tempoEspera}</strong></li>`;
+                }
+            }
+            conteudoHistoricoHTML += "</ul>";
+            divHistorico.innerHTML = conteudoHistoricoHTML;
+        }
+    </script>
 </body>
 
 </html>
