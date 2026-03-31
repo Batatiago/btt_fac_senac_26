@@ -5,24 +5,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exercício 5</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
   <h1>5. Verificação de Idade:</h1>
-   <p>
-     Peça ao usuário (com prompt) sua idade. 
-     o Se for menor que 12, mostre "Criança". 
-     o Se estiver entre 12 e 17, mostre "Adolescente". 
-     o Se for maior ou igual a 18, mostre "Adulto".
-   </p>
-   <input id="idadeInput" type="number" placeholder="Digite sua idade">
-   <button id="btn">Ok</button>
-   <p id="txt"></p>
+  <p>
+    Peça ao usuário (com prompt) sua idade.
+    o Se for menor que 12, mostre "Criança".
+    o Se estiver entre 12 e 17, mostre "Adolescente".
+    o Se for maior ou igual a 18, mostre "Adulto".
+  </p>
+  <input id="idadeInput" type="number" placeholder="Digite sua idade">
+  <button id="btn">Ok</button>
+  <p id="txt"></p>
   <script>
     let idadeInput = document.getElementById("idadeInput");
     let btn = document.getElementById("btn");
 
-    btn.addEventListener("click", function (){
+    btn.addEventListener("click", function () {
       let idade = idadeInput.value;
       if (idade < 12) {
         document.getElementById("txt").append(`Você é criaça com ${idade} anos!`);

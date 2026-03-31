@@ -5,14 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercício 16</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h1>16. Dobrar Valores (map):</h1>
+    <p>Dado o array [1, 2, 3, 4, 5], use map para criar um novo array com cada número
+        dobrado.</p>
+    <h3>Digite os numeros de 1 a 5:</h3>
+    <br><br>
+    <p>Para adicionar os números digite e envie usando Enter</p>
+    <p>Para mostrar na tela o array clique no botão "Mostrar"</p>
+    <br><br>
+    <input type="number" id="numerosInput" placeholder="Digite os numeros de 1 a 5!!">
+    <button id="btn" onclick="capturarDados()">Mostrar</button>
+    <div id="resultado"></div>
     <script>
-        let numeros = [1, 2, 3, 4, 5];
-        let numerosDobrados = numeros.map(numeros => numeros * 2);
-        console.log(numeros, numerosDobrados);
+        let numeros = [];
+        let inputNumeros = document.getElementById("numerosInput");
 
+        inputNumeros.addEventListener("keydown", function (input) {
+            if (input.key === "Enter" && inputNumeros.value.trim() !== "") {
+                numeros.push(inputNumeros.value);
+                inputNumeros.value = "";
+            }
+        });
+
+        function capturarDados() {
+            let resultadoDiv = document.getElementById("resultado");
+            let listaHTML = "<ul>let numeros = [";
+
+            for (numero of numeros) {
+                listaHTML += `<li>${numero}</li>`;
+            }
+            listaHTML += "];</ul><hr>";
+
+            let numerosDobrados = numeros.map(numeros => numeros * 2);
+
+            listaHTML += "<ul>let numerosDobrados = [";
+            for (numero of numerosDobrados) {
+
+                listaHTML += `<li>${numero}</li>`;
+            }
+            listaHTML += "];</ul>";
+            resultadoDiv.innerHTML = listaHTML;
+        }
     </script>
 </body>
 

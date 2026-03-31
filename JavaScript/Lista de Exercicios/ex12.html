@@ -4,21 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Exercício 12</title>
 </head>
 
 <body>
+    <h1>12. Percorrendo Arrays com for...of:</h1>
+    <p>Crie um array de frutas e use for...of para mostrar cada fruta no console.</p>
+    <br><br>
+    <p>Para adicionar frutas digite o nome e envie usando Enter</p>
+    <p>Para mostrar na tela o array clique no botão "Mostrar"</p>
+    <br><br>
+    <input type="text" id="frutasInput" placeholder="Digite Nomes de Frutas">
+    <button id="btn" onclick="capturarDados()">Mostrar</button>
+    <div id="resultado"></div>
+
     <script>
-        let frutas = [
-            "banana",
-            'maçã',
-            "uva",
-            "abacaxí"
-        ]
+        let frutas = [];
+        let inputFruta = document.getElementById("frutasInput");
 
-        for (i of frutas) {
-            console.log(i);
+        inputFruta.addEventListener("keydown", function (input) {
+            if (input.key === "Enter" && inputFruta.value.trim() !== "") {
+                frutas.push(inputFruta.value);
+                inputFruta.value = "";
+            }
+        });
 
+        function capturarDados() {
+            let resultadoDiv = document.getElementById("resultado");
+            let listaHTML = "<ul>let frutas = [";
+
+            for (fruta of frutas) {
+                listaHTML += `<li>${fruta}</li>`;
+            }
+            listaHTML += "];</ul>";
+
+            resultadoDiv.innerHTML = listaHTML;
         }
     </script>
 </body>

@@ -5,19 +5,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercício 11</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h1>11. Percorrendo Objetos com for...in:</h1>
+    <p>Crie um objeto pessoa com nome, idade e cidade. Use for...in para listar suas
+        propriedades e valores.</p>
+    <input type="text" id="nomeInput" placeholder="Nome">
+    <input type="number" id="idadeInput" placeholder="Idade">
+    <input type="text" id="cidadeInput" placeholder="Cidade">
+    <button id="btn" onclick="capturarDados()">Enviar</button>
+    <div id="resultado"></div>
     <script>
-        const pessoas = {
-            nome: "Tiago",
-            idade: 24,
-            cidade: "Guará"
+        function capturarDados() {
+            let nome = document.getElementById("nomeInput").value;
+            let idade = document.getElementById("idadeInput").value;
+            let cidade = document.getElementById("cidadeInput").value;
+
+            const user = {
+                nome: nome,
+                idade: idade,
+                cidade: cidade
+            };
+
+            exibirNaTela(user);
         }
 
-        for (i in pessoas) {
-            console.log(`${i} = ${pessoas[i]}`);
+        function exibirNaTela(objeto) {
+            const resultado = document.getElementById("resultado");
 
+            let conteudoHTML = "<h3>Dados do Objeto:</h3><ul>";
+
+            for (let propriedade in objeto) {
+                conteudoHTML += `<li><strong>${propriedade}:</strong> ${objeto[propriedade]}</li>`;
+            }
+            conteudoHTML += "</ul>";
+            resultado.innerHTML = conteudoHTML;
         }
     </script>
 </body>

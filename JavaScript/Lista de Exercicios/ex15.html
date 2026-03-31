@@ -5,21 +5,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercício 15</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h1>15. Manipulação de Propriedades:</h1>
+    <br>
+    <h3>Crie um objeto livro com título e autor.
+        <ul>
+            <li>Adicione dinamicamente a propriedade ano.</li>
+            <li>Altere o título.</li>
+            <li>Exclua a propriedade autor.</li>
+            <li>Mostre o objeto atualizado no console.</li>
+        </ul>
+    </h3>
+    <br>
+    <h3>Insira as informações originais do livro:</h3>
+    <input type="text" id="tituloInput" placeholder="Fundamentos da Metafisica dos Costumes">
+    <input type="text" id="autorInput" placeholder="Immanuel Kant">
+    <button id="btnCriar" onclick="criarLivro()">Enviar</button>
+
+    <div id="secaoAtualizar" style="display: none;">
+        <br><br>
+        <h3>Atualize as informações do livro:</h3>
+        <input type="number" id="anoInput" placeholder="Ano (ex: 2001)">
+        <input type="text" id="novoTituloInput" placeholder="Novo Título">
+        <button id="btnAtualizar" onclick="atualizarLivro()">Atualizar</button>
+    </div>
+
+    <br><br>
+    <div id="resultado"></div>
     <script>
-        const livro = {
-            titulo: "Fundamentação da Metafísica dos Costumes",
-            autor: "Immanuel Kant"
-        };
+        let livro = {};
 
-        livro.ano = 1797;
-        livro.titulo = "O Senhor dos Anéis";
-        delete livro.autor;
+        function criarLivro() {
+            let titulo = document.getElementById("tituloInput").value;
+            let autor = document.getElementById("autorInput").value;
 
-        console.log(livro);
+            livro = {
+                titulo: titulo,
+                autor: autor
+            };
 
+            exibirNaTela("Livro Original:", livro);
+
+            document.getElementById("secaoAtualizar").style.display = "block";
+            document.getElementById("btnCriar").disabled = true;
+        }
+
+        function atualizarLivro() {
+            let ano = document.getElementById("anoInput").value;
+            let novoTitulo = document.getElementById("novoTituloInput").value;
+
+            if (ano !== "") {
+                livro.ano = parseInt(ano);
+            } else if (novoTitulo !== "") {
+                livro.titulo = novoTitulo;
+            };
+
+            delete livro.autor;
+
+            exibirNaTela("Livro Atualizado (Sem autor, com ano e novo título):", livro);
+        }
+
+        function exibirNaTela(cabecalho, objeto) {
+            const resultado = document.getElementById("resultado");
+
+            let conteudoHTML = `<h3>${cabecalho}</h3><ul>`;
+
+            for (propriedade in objeto) {
+                conteudoHTML += `<li><strong>${propriedade}:</strong> ${objeto[propriedade]}</li>`;
+            }
+            conteudoHTML += "</ul><hr>";
+
+            resultado.innerHTML += conteudoHTML;
+        }
     </script>
 </body>
 

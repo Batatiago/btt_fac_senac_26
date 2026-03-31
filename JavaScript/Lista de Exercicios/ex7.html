@@ -5,6 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Exercício 7</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -13,28 +14,27 @@
     <br>
     o >= 7: "Aprovado".
     <br>
-    o >= 5 e < 7: "Recuperação" .
-    <br>
-    o < 5: "Reprovado" . </p>
-      <input type="number" id="nota" placeholder="Digite sua Nota">
-      <button id="btn">Ok</button>
-      <p id="txt"></p>
-      <script>
-        let notaInput = document.getElementById("nota");
-        let btn = document.getElementById("btn")
+    o >= 5 e < 7: "Recuperação" . <br>
+      o < 5: "Reprovado" . </p>
+        <input type="number" id="nota" placeholder="Digite sua Nota">
+        <button id="btn">Ok</button>
+        <p id="txt"></p>
+        <script>
+          let notaInput = document.getElementById("nota");
+          let btn = document.getElementById("btn")
 
-        btn.addEventListener("click", function () {
-          let nota = notaInput.value;
+          btn.addEventListener("click", function () {
+            let nota = notaInput.value;
 
-          if (nota >= 7) {
-            document.getElementById("txt").append("Aprovado !!");
-          } else if (nota >= 5 && nota < 7) {
-            document.getElementById("txt").append("Recuperação !!");
-          } else if (nota < 5) {
-            document.getElementById("txt").append("Reprovado !!");
-          }
-        });
-      </script>
+            if (nota >= 7) {
+              document.getElementById("txt").append("Aprovado !!");
+            } else if (nota >= 5 && nota < 7) {
+              document.getElementById("txt").append("Recuperação !!");
+            } else if (nota < 5) {
+              document.getElementById("txt").append("Reprovado !!");
+            }
+          });
+        </script>
 </body>
 
 </html>

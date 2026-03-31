@@ -5,22 +5,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercício 13 e 14</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h1>13. Criação de Objeto:</h1>
+    <p>Crie um objeto carro com propriedades marca, modelo e ano. Mostre todas as
+        propriedades no console, usando uma instrução console.log para cada uma das
+        propriedades.</p>
+    <h3>Inssira as informações do carro nos campos abaixo:</h3>
+    <input type="text" id="marcaInput" placeholder="Marca">
+    <input type="text" id="modeloInput" placeholder="Modelo">
+    <input type="number" id="anoInput" placeholder="Ano do carro">
+    <button id="btn" onclick="capturarDados()">Enviar</button>
+    <div id="resultado"></div>
     <script>
-        const carro = {
-            marca: "Chevrolet",
-            modelo: "Kadett",
-            ano: 1993,
-            descricao: () => `${carro.marca}, ${carro.modelo}, ${carro.ano}`
-        };
+        function capturarDados() {
+            let marca = document.getElementById("marcaInput").value;
+            let modelo = document.getElementById("modeloInput").value;
+            let ano = document.getElementById("anoInput").value;
 
-        console.log(`Marca: ${carro.marca}`);
-        console.log(`Modelo: ${carro.modelo}`);
-        console.log(`Ano: ${carro.ano}`);
-        console.log(carro.descricao());
+            const carro = {
+                Marca: marca,
+                Modelo: modelo,
+                Ano: ano,
+                Descricao: () => `${carro.marca}, ${carro.modelo}, ${carro.ano}`
+            };
+            exibirNaTela(carro);
+        }
 
+        function exibirNaTela(objeto) {
+            const resultado = document.getElementById("resultado");
+
+            let conteudoHTML = "<h3>Informações do carro:</h3><ul>let carro = {";
+
+            for (let propriedade in objeto) {
+                conteudoHTML += `<li><strong>${propriedade}:</strong> ${objeto[propriedade]}</li>`;
+            }
+            conteudoHTML += "}</ul>";
+            resultado.innerHTML = conteudoHTML;
+        }
     </script>
 </body>
 </htm

@@ -6,15 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercício 17
     </title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h1>17. Filtrar Números Pares (filter):</h1>
+    <p>Dado o array [10, 15, 20, 25, 30], use filter para criar um array apenas com
+        números pares.</p>
+    <br><br>
+    <p>Para adicionar os números digite e envie usando Enter</p>
+    <p>Para mostrar na tela o array clique no botão "Mostrar"</p>
+    <br><br>
+    <input type="number" id="numerosInput" placeholder="   [10,15,20,25,30]">
+    <button id="btn" onclick="capturarDados()">Mostrar</button>
+    <div id="resultado"></div>
     <script>
-        let numeros = [10, 15, 20, 25, 30];
-        let numerosPares = numeros.filter(pares => pares % 2 == 0);
+        let numeros = [];
+        let inputNumeros = document.getElementById("numerosInput");
 
-        console.log(numeros, numerosPares);
+        inputNumeros.addEventListener("keydown", function (input) {
+            if (input.key === "Enter" && inputNumeros.value.trim() !== "") {
+                numeros.push(inputNumeros.value);
+                inputNumeros.value = "";
+            }
+        });
 
+        function capturarDados() {
+            let resultadoDiv = document.getElementById("resultado");
+            let listaHTML = "<ul>let numeros = [";
+
+            for (numero of numeros) {
+                listaHTML += `<li>${numero}</li>`;
+            }
+            listaHTML += "];</ul><hr>";
+
+            let numerosPares = numeros.filter(pares => pares % 2 == 0);
+
+            listaHTML += "<ul>let numerosPares = [";
+            for (numero of numerosPares) {
+
+                listaHTML += `<li>${numero}</li>`;
+            }
+            listaHTML += "];</ul>";
+            resultadoDiv.innerHTML = listaHTML;
+        }
     </script>
 </body>
 

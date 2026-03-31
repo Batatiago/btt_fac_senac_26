@@ -5,19 +5,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exercício 19</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+    <h1>19. Encadeando Métodos:</h1>
+    <p>Dado o array [2, 5, 8, 11, 14], use filter para selecionar apenas os números
+        maiores que 5 e depois map para multiplicá-los por 2. Mostre o resultado final.</p>
+    <br><br>
+    <p>Para adicionar os números digite e envie usando Enter</p>
+    <p>Para mostrar na tela o array clique no botão "Mostrar"</p>
+    <br><br>
+    <input type="number" id="numerosInput" placeholder="   [2, 5, 8, 11, 14]">
+    <button id="btn" onclick="capturarDados()">Mostrar</button>
+    <div id="resultado"></div>
     <script>
-        let numeros = [2, 5, 8, 11, 14];
+        let numeros = [];
+        let inputNumeros = document.getElementById("numerosInput");
 
-        let maioresCinco = numeros.filter(maior => maior > 5);
+        inputNumeros.addEventListener("keydown", function (input) {
+            if (input.key === "Enter" && inputNumeros.value.trim() !== "") {
+                numeros.push(inputNumeros.value);
+                inputNumeros.value = "";
+            }
+        });
 
-        let maiores2X = maioresCinco.map(dobro => dobro * 2);
+        function capturarDados() {
+            let resultadoDiv = document.getElementById("resultado");
+            let listaHTML = "<ul>let numeros = [";
 
-        console.log("Array: " + numeros);
-        console.log("Maiores que cinco: " + maioresCinco);
-        console.log("Dobro dos maiores: " + maiores2X);
+            for (numero of numeros) {
+                listaHTML += `<li>${numero}</li>`;
+            }
+            listaHTML += "];</ul><hr>";
+
+            let maioresCinco = numeros.filter(maior => maior > 5);
+            let maiores2X = maioresCinco.map(dobro => dobro * 2);
+
+            listaHTML += "<ul>let maioresCinco = [";
+            for (numero of maioresCinco) {
+
+                listaHTML += `<li>${numero}</li>`;
+            }
+
+            listaHTML += "];</ul><hr>";
+            resultadoDiv.innerHTML = listaHTML;
+
+            listaHTML += "<ul>let maiores2X = [";
+            for (numero of maiores2X) {
+
+                listaHTML += `<li>${numero}</li>`;
+            }
+
+            listaHTML += "];</ul>";
+            resultadoDiv.innerHTML = listaHTML;
+        };
     </script>
 </body>
 
