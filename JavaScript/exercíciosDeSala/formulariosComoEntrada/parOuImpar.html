@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>Verificar se é par. e retorne true se for par ou false se for impar.</p>
+
+    <form preventDefault="verificarParOuImpar()">
+      <label for="id_num">Digite um número:</label>
+      <input type="number" id="id_num" name="v_num" />
+      <button id="id_button" ondblclick="verificarParOuImpar()">
+        Par ou Impar
+      </button>
+    </form>
+
+    <p>O número difitado é: <span id="resultado"></span></p>
+
+    <script>
+      document.getElementById("id_button").addEventListener("click", e => verificarParOuImpar(e));
+
+      function verificarParOuImpar(evento) {
+        evento.preventDefault();
+        
+        const numero = Number(document.getElementById("id_num").value);
+        let parOuImpar = "";
+
+        if (numero % 2 === 0) {
+          parOuImpar = "Par";
+        } else {
+          parOuImpar = "Ímpar";
+        }
+        document.getElementById("resultado").innerHTML = parOuImpar;
+      }
+    </script>
+  </body>
+</html>
