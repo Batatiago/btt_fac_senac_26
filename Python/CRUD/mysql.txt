@@ -1,0 +1,14 @@
+create database aulasegunda;
+use aulasegunda;
+
+create table usuarios (cod int not null primary key auto_increment,
+nome varchar(100) not null,
+email varchar(50) not null,
+senha varchar(20) not null,
+data_cadastro date);
+
+insert into usuarios values(null, 'Antonio', 'btt@btt.com', '12345', now()); 
+select * from usuarios;
+
+#update usuarios set nome='Michele Alves', email='michelea@gmail.com', senha='senac123'
+#where cod=1;
