@@ -26,22 +26,10 @@ source "${ZINIT_HOME}/zinit.zsh")
 
 -->
 
-# Instalar os plugins (copiar no fim do arquivo .zshrc via nano) -
+# Instalar os plugins (copiar no fim do arquivo .zshrc via nano) ->
 
 zinit light zsh-users/zsh-autosuggestions
 zinit light zdharma-continuum/fast-syntax-highlighting
-
-#Instalar Python3.14 ->
-
-1º sudo add-apt-repository ppa:deadsnakes/ppa
-2º sudo apt update && sudo apt upgrade
-3º sudo apt install python3.14-full
-
-#Definir python3.14 padrão ->
-
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.14 10
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 100
-sudo update-alternatives --config python3
 
 # Configurações Git/GitHub ->
 
@@ -52,6 +40,18 @@ ssh-keygen -t ed25519-sk -C "tiago.andrade.lima@gmail.com"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub
+
+# Instalar Python3.14 ->
+
+1º sudo add-apt-repository ppa:deadsnakes/ppa
+2º sudo apt update && sudo apt upgrade
+3º sudo apt install python3.14-full
+
+# Definir python3.14 padrão ->
+
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.14 10
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 100
+sudo update-alternatives --config python3
 
 # Instalar LLM Local - Ollama ->
 
