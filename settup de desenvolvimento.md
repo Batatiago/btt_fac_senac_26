@@ -36,10 +36,10 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 git config --global user.name "Tiago de Andrade Lima"
 git config --global user.email "tiago.andrade.lima@gmail.com"
 
-ssh-keygen -t ed25519-sk -C "tiago.andrade.lima@gmail.com"
-eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_ed25519
-cat ~/.ssh/id_ed25519.pub
+ssh-keygen -t ed25519-sk -C "tiago.andrade.lima@gmail.com" <!--Cria chave SSH-Local-->
+eval "$(ssh-agent -s)" <!---Verifica o agente-->
+ssh-add ~/.ssh/id_ed25519 <!--Adiciona a chave ao agente-->
+cat ~/.ssh/id_ed25519.pub <!--Mostra qual a chave SSH copiar-->
 
 # Instalar Python3.14 ->
 
@@ -49,9 +49,19 @@ cat ~/.ssh/id_ed25519.pub
 
 # Definir python3.14 padrão ->
 
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.14 10
-sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 100
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.14 10 &&
+sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 100 &&
 sudo update-alternatives --config python3
+
+# Instalar e Configurar Mysql Server/Workbench
+
+sudo apt install mysql-server -y 
+sudo mysql -u root -p
+   mysql-> `ALTER USER 'root'@'localhost' IDENTIFIED BY 'Sua_Senha';`
+    ou
+   mysql -> `alter user 'root'@'localhost' identified with mysql_native_password by 'Sua_Senha'`
+
+sudo snap install mysql-workbench-community
 
 # Instalar LLM Local - Ollama ->
 
