@@ -13,6 +13,7 @@ chsh -s $(which zsh)
 # Instalar OH-MY-ZSH! - 
 
 sudo apt install curl (caso não tenha)
+
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Via ( nano ~/.zshrc ) definir tema awesomepada e instalar zinit:
@@ -29,22 +30,29 @@ source "${ZINIT_HOME}/zinit.zsh")
 # Instalar os plugins (copiar no fim do arquivo .zshrc via nano) ->
 
 zinit light zsh-users/zsh-autosuggestions
+
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 # Configurações Git/GitHub ->
 
 git config --global user.name "Tiago de Andrade Lima"
+
 git config --global user.email "tiago.andrade.lima@gmail.com"
 
 ssh-keygen -t ed25519-sk -C "tiago.andrade.lima@gmail.com" <!--Cria chave SSH-Local-->
+
 eval "$(ssh-agent -s)" <!---Verifica o agente-->
+
 ssh-add ~/.ssh/id_ed25519 <!--Adiciona a chave ao agente-->
+
 cat ~/.ssh/id_ed25519.pub <!--Mostra qual a chave SSH copiar-->
 
 # Instalar Python3.14 ->
 
 1º sudo add-apt-repository ppa:deadsnakes/ppa
+
 2º sudo apt update && sudo apt upgrade
+
 3º sudo apt install python3.14-full
 
 # Definir python3.14 padrão ->
@@ -56,16 +64,20 @@ sudo update-alternatives --config python3
 # Instalar e Configurar Mysql Server/Workbench
 
 sudo apt install mysql-server -y 
+
 sudo mysql -u root -p
+
    mysql-> `ALTER USER 'root'@'localhost' IDENTIFIED BY 'Sua_Senha';`
+   
     ou
+   
    mysql -> `alter user 'root'@'localhost' identified with mysql_native_password by 'Sua_Senha'`
 
 sudo snap install mysql-workbench-community
 
 # Instalar LLM Local - Ollama ->
 
-sudo curl -fsSL https://ollama.com/install.sh | sh
+curl -fsSL https://ollama.com/install.sh | sh
 ollama run gemma4:31b
 
 `Install using npm`
