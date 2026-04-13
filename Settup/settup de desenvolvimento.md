@@ -16,7 +16,8 @@
 
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-# Via nano definir tema awesomepada e instalar zinit
+# Via nano definir tema batata e instalar zinit
+Copiar `batata.zsh-theme` para pasta `~/.oh-my-zsh/themes`
 
     nano ~/.zshrc
 
