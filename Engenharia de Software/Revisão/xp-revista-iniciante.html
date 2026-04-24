@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XP · Extreme Programming para Iniciantes · SENAC</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:#f8fafc;font-family:'Nunito',sans-serif;color:#0f172a;overflow-x:hidden;}
+:root{
+  --blue:#0ea5e9;--blue-d:#0369a1;--blue-l:#e0f2fe;
+  --amber:#f59e0b;--amber-d:#b45309;--amber-l:#fef3c7;
+  --emerald:#10b981;--emerald-d:#047857;--emerald-l:#d1fae5;
+  --violet:#8b5cf6;--violet-l:#ede9fe;
+  --rose:#f43f5e;--rose-l:#ffe4e6;
+}
+.ground{
+  background:
+    radial-gradient(circle at 12% 18%, rgba(14,165,233,.12), transparent 24%),
+    radial-gradient(circle at 88% 25%, rgba(245,158,11,.12), transparent 20%),
+    radial-gradient(circle at 50% 86%, rgba(16,185,129,.08), transparent 22%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0px,rgba(255,255,255,.04) 1px,transparent 1px,transparent 48px),
+    linear-gradient(160deg,#f0f9ff 0%,#fffbeb 55%,#ecfeff 100%);
+}
+.section{min-height:100vh;padding:70px 32px 100px;position:relative;overflow:hidden;}
+.section-inner{max-width:1140px;margin:0 auto;position:relative;z-index:2;}
+.page-footer{background:linear-gradient(90deg,#0f172a,#1e293b);padding:14px 32px;position:relative;z-index:10;}
+.footer-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.footer-text{font-size:.82rem;color:rgba(255,255,255,.9);font-weight:600;}
+.footer-yt{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:5px 14px 5px 10px;text-decoration:none;color:white;font-size:.78rem;font-weight:700;transition:background .2s,transform .2s;}
+.footer-yt:hover{background:rgba(255,0,0,.30);transform:scale(1.04);}
+.f-fun{font-family:'Fredoka One',cursive;}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.11em;text-transform:uppercase;padding:4px 12px;border-radius:30px;font-weight:600;}
+.badge-blue{background:var(--blue-l);color:var(--blue-d);} .badge-amber{background:var(--amber-l);color:var(--amber-d);}
+.badge-green{background:var(--emerald-l);color:var(--emerald-d);} .badge-violet{background:var(--violet-l);color:#6d28d9;}
+.badge-rose{background:var(--rose-l);color:#be123c;}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.22;}
+.blob-b{background:radial-gradient(circle,#7dd3fc,#0ea5e9);} .blob-a{background:radial-gradient(circle,#fcd34d,#f59e0b);} .blob-e{background:radial-gradient(circle,#6ee7b7,#10b981);}
+.callout{border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin:20px 0;}
+.callout-info{background:#eff6ff;border:2px solid #bfdbfe;} .callout-warn{background:#fffbeb;border:2px solid #fde68a;} .callout-em{background:#ecfeff;border:2px solid #67e8f9;}
+.callout-icon{font-size:1.4rem;flex-shrink:0;margin-top:1px;} .callout-title{font-weight:800;font-size:.92rem;margin-bottom:3px;} .callout-body{font-size:.85rem;color:#334155;line-height:1.65;}
+.diag-card{background:white;border-radius:18px;overflow:hidden;box-shadow:0 4px 0 rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s;}
+.diag-card:hover{transform:translateY(-5px) rotate(.35deg);box-shadow:0 12px 36px rgba(0,0,0,.12),0 4px 0 rgba(0,0,0,.08);}
+.card-header{padding:16px 18px 10px;display:flex;align-items:center;gap:12px;} .card-num{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;color:#fff;font-size:.95rem;flex-shrink:0;}
+.card-title{font-family:'Fredoka One',cursive;font-size:1.05rem;line-height:1.15;} .card-body{padding:0 18px 16px;font-size:.84rem;color:#334155;line-height:1.65;}
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--blue-d);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.sec-eyebrow::after{content:'';flex:0 0 28px;height:2px;background:var(--blue);border-radius:2px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;} .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;} .grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;}
+@media(max-width:860px){.grid-2,.grid-3,.grid-auto{grid-template-columns:1fr;}}
+#capa{background:radial-gradient(ellipse 80% 70% at 50% 40%,#e0f2fe 0%,transparent 65%),linear-gradient(180deg,#f0f9ff 0%,#f8fafc 100%);display:flex;align-items:center;padding:0;min-height:100vh;}
+.hero-wave{position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(180deg,transparent,#bae6fd 40%,#7dd3fc);border-radius:100% 100% 0 0/40px 40px 0 0;z-index:1;}
+.hero-content{max-width:1140px;margin:0 auto;padding:100px 40px 100px;position:relative;z-index:5;width:100%;}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;background:white;border:2px solid var(--blue);border-radius:30px;padding:6px 18px 6px 10px;font-size:.78rem;font-weight:700;color:var(--blue-d);margin-bottom:24px;}
+.hero-kicker-dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 8px var(--blue);} .hero-title{font-family:'Fredoka One',cursive;font-size:clamp(3rem,7vw,6.2rem);line-height:1.0;color:#0c4a6e;margin-bottom:18px;} .hero-title span{color:var(--blue);}
+.hero-desc{font-size:clamp(.95rem,1.5vw,1.1rem);color:#155e75;max-width:640px;margin-bottom:40px;line-height:1.75;} .hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:46px;}
+.hero-facts{display:flex;gap:18px;flex-wrap:wrap;} .fact-box{background:white;border-radius:14px;padding:15px 18px;border:2px solid #bae6fd;text-align:center;min-width:120px;box-shadow:0 2px 8px rgba(14,165,233,.12);} .fact-num{font-family:'Fredoka One',cursive;font-size:1.9rem;color:var(--blue-d);line-height:1;} .fact-label{font-size:.72rem;color:#334155;margin-top:2px;}
+.fixed-nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border:2px solid #bae6fd;border-radius:50px;padding:7px 14px;z-index:100;box-shadow:0 4px 20px rgba(14,165,233,.18);}
+.n-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;cursor:pointer;transition:all .2s;} .n-dot.active,.n-dot:hover{background:var(--blue);transform:scale(1.4);}
+.toc-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1.5px dashed #bae6fd;text-decoration:none;color:inherit;transition:transform .2s;}
+.toc-row:hover{transform:translateX(8px);} .toc-row:hover .toc-title{color:var(--blue-d);} .toc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.08);} .toc-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#94a3b8;min-width:28px;} .toc-title{font-weight:700;font-size:.92rem;flex:1;} .toc-pg{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#94a3b8;}
+.simple-table{width:100%;border-collapse:collapse;font-size:.84rem;} .simple-table th{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;color:#6b7280;border-bottom:2px solid #bae6fd;text-align:left;} .simple-table td{padding:11px 14px;border-bottom:1px solid #dbeafe;color:#334155;vertical-align:top;} .simple-table tr:hover td{background:rgba(14,165,233,.04);}
+.pillar{background:white;border:2px solid #bae6fd;border-radius:14px;padding:14px;} .pillar h4{font-size:.9rem;color:#0c4a6e;margin-bottom:8px;} .pillar p{font-size:.82rem;color:#334155;line-height:1.65;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}} @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.float{animation:float 4s ease-in-out infinite;} .anim-up{animation:fadeUp .7s ease both;} .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
+@media(max-width:1024px){
+  .section{padding:60px 20px 90px;}
+  .hero-content{padding:90px 24px 90px;}
+}
+@media(max-width:768px){
+  .section{padding:54px 16px 86px;min-height:auto;}
+  .page-footer{padding:14px 16px;}
+  .hero-content{padding:78px 16px 88px;}
+  .hero-facts{gap:10px;}
+  .fact-box{min-width:unset;flex:1 1 calc(50% - 10px);padding:12px 10px;}
+  .fact-num{font-size:1.55rem;}
+  .callout{padding:14px 14px;gap:10px;}
+  .card-header,.card-body{padding-left:14px;padding-right:14px;}
+  .toc-row{gap:10px;align-items:flex-start;}
+  .toc-pg{display:none;}
+  .simple-table{display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;}
+  .fixed-nav{left:12px;right:12px;transform:none;bottom:10px;max-width:none;overflow-x:auto;justify-content:flex-start;padding:7px 10px;}
+  .fixed-nav::-webkit-scrollbar{display:none;}
+  #global-nav div{padding:10px 12px !important;gap:6px !important;}
+  #global-nav strong{font-size:.68rem !important;}
+  #global-nav a{font-size:.7rem !important;padding:4px 8px !important;}
+  [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;gap:24px !important;}
+}
+@media(max-width:560px){
+  .fact-box{flex:1 1 100%;}
+}
+::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:#f0f9ff;} ::-webkit-scrollbar-thumb{background:#7dd3fc;border-radius:3px;}
+</style>
+</head>
+<body>
+<header id="global-nav" style="position:sticky;top:0;z-index:120;background:rgba(15,23,42,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.18);">
+  <div style="max-width:1140px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+    <strong style="color:#e2e8f0;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;">Navegar:</strong>
+    <a href="cascata-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Cascata</a>
+    <a href="espiral-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Espiral</a>
+    <a href="prototipacao-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Prototipacao</a>
+    <a href="rup-irup-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">RUP/iRUP</a>
+    <a href="scrum-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Scrum</a>
+    <a href="xp-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">XP</a>
+    <a href="uml-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">UML</a>
+  </div>
+</header>
+<script>
+(function(){
+  const page = (location.pathname.split('/').pop() || '');
+  document.querySelectorAll('#global-nav a').forEach((a) => {
+    if (a.getAttribute('href') === page) {
+      a.style.background = '#f97316';
+      a.style.color = '#111827';
+      a.style.borderColor = '#fdba74';
+      a.style.fontWeight = '800';
+    }
+  });
+})();
+</script>
+<nav class="fixed-nav" id="nav">
+  <div class="n-dot active" onclick="goTo('#capa')" title="Capa"></div>
+  <div class="n-dot" onclick="goTo('#indice')" title="Indice"></div>
+  <div class="n-dot" onclick="goTo('#visao')" title="Visao"></div>
+  <div class="n-dot" onclick="goTo('#valores')" title="Valores"></div>
+  <div class="n-dot" onclick="goTo('#praticas')" title="Praticas"></div>
+  <div class="n-dot" onclick="goTo('#fluxo')" title="Fluxo"></div>
+  <div class="n-dot" onclick="goTo('#vantagens')" title="Vantagens"></div>
+  <div class="n-dot" onclick="goTo('#cuidados')" title="Cuidados"></div>
+  <div class="n-dot" onclick="goTo('#final')" title="Conclusao"></div>
+</nav>
+
+<section id="capa" class="section" style="padding:0;min-height:100vh;">
+  <div class="blob blob-b" style="width:520px;height:520px;top:-120px;left:-120px;"></div>
+  <div class="blob blob-a" style="width:320px;height:320px;top:28%;right:-90px;"></div>
+  <div class="hero-content">
+    <div class="hero-kicker anim-up">
+      <div class="hero-kicker-dot"></div>
+      SENAC · 1º Semestre · Engenharia de Software
+    </div>
+    <h1 class="hero-title anim-up d1">Framework <span>XP</span> ⚡</h1>
+    <p class="hero-desc anim-up d2">Extreme Programming (XP) e uma abordagem agil com forte foco em <strong>excelencia tecnica</strong>, feedback rapido e adaptacao continua para lidar com mudancas de requisitos.</p>
+    <div class="hero-tags anim-up d3">
+      <span class="badge badge-blue">qualidade de codigo</span>
+      <span class="badge badge-amber">iteracoes curtas</span>
+      <span class="badge badge-green">feedback constante</span>
+      <span class="badge badge-violet">praticas de engenharia</span>
+      <span class="badge badge-rose">mudanca bem-vinda</span>
+    </div>
+    <div class="hero-facts anim-up d4">
+      <div class="fact-box float"><div class="fact-num">5</div><div class="fact-label">Valores</div></div>
+      <div class="fact-box float" style="animation-delay:.3s;"><div class="fact-num">12</div><div class="fact-label">Praticas classicas</div></div>
+      <div class="fact-box float" style="animation-delay:.6s;"><div class="fact-num">1990s</div><div class="fact-label">Origem</div></div>
+      <div class="fact-box float" style="animation-delay:.9s;"><div class="fact-num">TDD</div><div class="fact-label">Pratica-chave</div></div>
+    </div>
+  </div>
+  <div class="hero-wave"></div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<section id="indice" class="section" style="background:white;">
+  <div class="blob blob-e" style="width:280px;height:280px;top:-60px;right:-60px;opacity:.12;"></div>
+  <div class="section-inner">
+    <div class="grid-2" style="gap:60px;align-items:start;">
+      <div>
+        <div class="sec-eyebrow">Sumario</div>
+        <h2 class="f-fun" style="font-size:clamp(2.2rem,5vw,3.7rem);color:#0c4a6e;line-height:1;margin-bottom:30px;">O que voce ve nesta edicao?</h2>
+        <a href="#visao" class="toc-row"><div class="toc-icon" style="background:#e0f2fe;">🧭</div><span class="toc-num">01</span><span class="toc-title">Visao geral e origem do XP</span><span class="toc-pg">P.03</span></a>
+        <a href="#valores" class="toc-row"><div class="toc-icon" style="background:#fef3c7;">💎</div><span class="toc-num">02</span><span class="toc-title">Os 5 valores do XP</span><span class="toc-pg">P.04</span></a>
+        <a href="#praticas" class="toc-row"><div class="toc-icon" style="background:#d1fae5;">🛠️</div><span class="toc-num">03</span><span class="toc-title">Praticas de engenharia</span><span class="toc-pg">P.05</span></a>
+        <a href="#fluxo" class="toc-row"><div class="toc-icon" style="background:#ede9fe;">🔁</div><span class="toc-num">04</span><span class="toc-title">Como funciona o fluxo de trabalho</span><span class="toc-pg">P.06</span></a>
+        <a href="#vantagens" class="toc-row"><div class="toc-icon" style="background:#dcfce7;">✅</div><span class="toc-num">05</span><span class="toc-title">Vantagens e quando usar</span><span class="toc-pg">P.07</span></a>
+        <a href="#cuidados" class="toc-row" style="border-bottom:none;"><div class="toc-icon" style="background:#ffe4e6;">⚠️</div><span class="toc-num">06</span><span class="toc-title">Cuidados e limites praticos</span><span class="toc-pg">P.08</span></a>
+      </div>
+      <div>
+        <div class="callout callout-info"><div class="callout-icon">📌</div><div><div class="callout-title" style="color:#1d4ed8;">Por que "extreme"?</div><div class="callout-body">A ideia e levar boas praticas de engenharia ao extremo de disciplina: testar sempre, integrar sempre, revisar sempre e simplificar sempre.</div></div></div>
+        <div class="callout callout-em"><div class="callout-icon">🤝</div><div><div class="callout-title" style="color:#0f766e;">XP + Agile</div><div class="callout-body">XP foi um dos metodos ageis que mais influenciaram o mercado, especialmente no que envolve qualidade tecnica e feedback rapido.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<section id="visao" class="section ground">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.03 · Visao geral</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#0c4a6e;line-height:1;margin-bottom:16px;">O que e Extreme Programming (XP)?</h2>
+    <p style="font-size:.93rem;color:#334155;line-height:1.8;max-width:940px;">XP e uma metodologia agil voltada para desenvolver software com alta qualidade e alta capacidade de resposta a mudancas. Ela ganhou forca no fim dos anos 1990, com Kent Beck, e ficou conhecida por combinar praticas tecnicas e colaboracao intensa com cliente.</p>
+    <div class="grid-3" style="margin-top:24px;">
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#0ea5e9;">1</div><div class="card-title" style="color:#0c4a6e;">Ciclos curtos</div></div><div class="card-body">Entregas pequenas e frequentes para validar valor real e ajustar rumo cedo.</div></article>
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#f59e0b;">2</div><div class="card-title" style="color:#92400e;">Engenharia forte</div></div><div class="card-body">TDD, refatoracao, integracao continua e programacao em pares sao pilares do dia a dia.</div></article>
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#10b981;">3</div><div class="card-title" style="color:#047857;">Feedback constante</div></div><div class="card-body">Cliente e time tecnico aprendem juntos por meio de testes, demonstracoes e adaptacao rapida.</div></article>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<section id="valores" class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.04 · Valores</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#0c4a6e;line-height:1;margin-bottom:22px;">Os 5 valores do XP</h2>
+    <div class="grid-auto">
+      <div class="pillar"><h4>Comunicacao</h4><p>Conversas frequentes e claras entre time tecnico e negocio para reduzir ambiguidades.</p></div>
+      <div class="pillar"><h4>Simplicidade</h4><p>Construir o mais simples que resolve o problema de hoje, evitando excesso de complexidade.</p></div>
+      <div class="pillar"><h4>Feedback</h4><p>Obter retorno rapido por testes automatizados, integracao continua e interacao com cliente.</p></div>
+      <div class="pillar"><h4>Coragem</h4><p>Refatorar, descartar solucoes ruins e ajustar direcao quando evidencias mostram necessidade.</p></div>
+      <div class="pillar"><h4>Respeito</h4><p>Trabalho colaborativo com qualidade, sem quebrar o fluxo dos colegas e do produto.</p></div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<section id="praticas" class="section ground">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.05 · Praticas</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#0c4a6e;line-height:1;margin-bottom:18px;">Praticas mais conhecidas no XP</h2>
+    <div style="background:white;border:2px solid #bae6fd;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04);">
+      <table class="simple-table">
+        <thead><tr><th>Pratica</th><th>Objetivo</th><th>Efeito esperado</th></tr></thead>
+        <tbody>
+          <tr><td>Pair Programming</td><td>Dois desenvolvedores no mesmo problema</td><td>Menos defeitos e compartilhamento de conhecimento</td></tr>
+          <tr><td>TDD / Test-first</td><td>Escrever teste antes do codigo de producao</td><td>Feedback tecnico imediato e design mais limpo</td></tr>
+          <tr><td>Continuous Integration</td><td>Integrar com frequencia e testar sempre</td><td>Conflitos detectados cedo</td></tr>
+          <tr><td>Refactoring</td><td>Melhorar estrutura interna sem mudar comportamento</td><td>Codigo mais manutenivel</td></tr>
+          <tr><td>Small Releases</td><td>Entregas pequenas e frequentes</td><td>Valor cedo e menor risco de retrabalho</td></tr>
+          <tr><td>Collective Ownership</td><td>Codigo e responsabilidade do time</td><td>Menos gargalo por pessoa</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-warn" style="margin-top:24px;"><div class="callout-icon">🧪</div><div><div class="callout-title" style="color:#92400e;">Interdependencia importa</div><div class="callout-body">No XP, praticas se reforcam mutuamente. Exemplo: TDD combina com refatoracao e integracao continua para manter qualidade sustentavel.</div></div></div>
+  </div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<section id="fluxo" class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.06 · Fluxo</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#0c4a6e;line-height:1;margin-bottom:18px;">Fluxo tipico de trabalho em XP</h2>
+    <div class="grid-3">
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#0ea5e9;">A</div><div class="card-title" style="color:#0c4a6e;">Planejar historias</div></div><div class="card-body">Cliente e time selecionam historias de maior valor para uma iteracao curta (semanal ou quinzenal).</div></article>
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#f59e0b;">B</div><div class="card-title" style="color:#92400e;">Construir com testes</div></div><div class="card-body">Implementacao guiada por testes, com pares programando, refatorando e integrando continuamente.</div></article>
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#10b981;">C</div><div class="card-title" style="color:#047857;">Demonstrar e ajustar</div></div><div class="card-body">Time mostra resultado, coleta feedback e reprioriza proxima iteracao com base em valor e risco.</div></article>
+    </div>
+    <div class="callout callout-info" style="margin-top:22px;"><div class="callout-icon">👥</div><div><div class="callout-title" style="color:#1d4ed8;">Papeis comuns em XP</div><div class="callout-body">Literatura de XP costuma citar Customer e Developers como nucleares, com Coach/Tracker aparecendo conforme contexto.</div></div></div>
+  </div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<section id="vantagens" class="section ground">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.07 · Vantagens</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#0c4a6e;line-height:1;margin-bottom:20px;">Quando XP costuma brilhar?</h2>
+    <div class="grid-3">
+      <div class="diag-card"><div class="card-header"><div class="card-num" style="background:#10b981;">✓</div><div class="card-title" style="color:#047857;">Mudanca frequente</div></div><div class="card-body">Projetos com requisitos dinamicos se beneficiam de ciclos curtos e feedback tecnico/negocio rapido.</div></div>
+      <div class="diag-card"><div class="card-header"><div class="card-num" style="background:#10b981;">✓</div><div class="card-title" style="color:#047857;">Qualidade critica</div></div><div class="card-body">TDD + CI + refatoracao reduzem defeitos e ajudam evolucao segura do codigo.</div></div>
+      <div class="diag-card"><div class="card-header"><div class="card-num" style="background:#10b981;">✓</div><div class="card-title" style="color:#047857;">Time colaborativo</div></div><div class="card-body">XP funciona melhor quando existe proximidade entre negocio e desenvolvimento e boa disciplina tecnica.</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<section id="cuidados" class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.08 · Cuidados</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#0c4a6e;line-height:1;margin-bottom:20px;">Armadilhas comuns ao adotar XP</h2>
+    <div class="grid-3">
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#f43f5e;">!</div><div class="card-title" style="color:#be123c;">Cerimonia sem tecnica</div></div><div class="card-body">Dizer que usa XP sem TDD, sem CI e sem refatoracao vira apenas discurso agil.</div></article>
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#f43f5e;">!</div><div class="card-title" style="color:#be123c;">Falta de cliente ativo</div></div><div class="card-body">Sem decisao de negocio frequente, backlog perde foco e ciclo de feedback fica lento.</div></article>
+      <article class="diag-card"><div class="card-header"><div class="card-num" style="background:#f43f5e;">!</div><div class="card-title" style="color:#be123c;">Ritmo insustentavel</div></div><div class="card-body">XP defende trabalho energizado e sustentavel, nao sobrecarga cronica.</div></article>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<section id="final" class="section ground">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.09 · Conclusao</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#0c4a6e;line-height:1;margin-bottom:24px;">Resumo rapido sobre XP</h2>
+    <div class="grid-2" style="margin-bottom:22px;">
+      <div style="background:white;border:2px solid #bae6fd;border-radius:14px;padding:18px;"><div style="font-weight:800;color:#0c4a6e;margin-bottom:7px;">Essencia</div><div style="font-size:.86rem;color:#334155;line-height:1.7;">XP une praticas tecnicas rigorosas com colaboracao proxima do cliente para entregar software de qualidade em ciclos curtos.</div></div>
+      <div style="background:white;border:2px solid #d1fae5;border-radius:14px;padding:18px;"><div style="font-weight:800;color:#047857;margin-bottom:7px;">Resultado esperado</div><div style="font-size:.86rem;color:#334155;line-height:1.7;">Menos defeitos, melhor capacidade de mudanca e aprendizado continuo do time com base em evidencias.</div></div>
+    </div>
+    <div class="callout callout-info"><div class="callout-icon">📚</div><div><div class="callout-title" style="color:#1d4ed8;">Base de validacao</div><div class="callout-body">A base local em <strong>.github/knowledge</strong> nao contem arquivo dedicado a XP neste workspace; por isso, o conteudo foi validado com Agile Alliance e material historico complementar (Martin Fowler e referencias consolidadas de XP).</div></div></div>
+  </div>
+</section>
+
+<footer class="page-footer"><div class="footer-inner"><div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div><a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg><span>@prof.edilberto-facildemais</span></a></div></footer>
+
+<script>
+function goTo(selector){const el=document.querySelector(selector);if(el){el.scrollIntoView({behavior:'smooth'});updateNav();}}
+function updateNav(){const sections=document.querySelectorAll('section[id]');const dots=document.querySelectorAll('.n-dot');const scrollPos=window.scrollY+100;let active=0;sections.forEach((section,idx)=>{if(section.offsetTop<=scrollPos)active=idx;});dots.forEach(d=>d.classList.remove('active'));if(dots[active])dots[active].classList.add('active');}
+window.addEventListener('scroll',updateNav);updateNav();
+</script>
+</body>
+</html>

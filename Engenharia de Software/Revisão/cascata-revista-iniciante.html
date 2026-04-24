@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waterfall · Cascata para Iniciantes — Metodologia de Desenvolvimento · SENAC</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:#f0fdf4;font-family:'Nunito',sans-serif;color:#1a2a1a;overflow-x:hidden;}
+
+/* ── TOKENS ── */
+:root{
+  --green:#22c55e;--green-d:#16a34a;--green-l:#dcfce7;
+  --teal:#14b8a6;--blue:#3b82f6;--purple:#8b5cf6;
+  --orange:#f97316;--yellow:#fbbf24;--pink:#ec4899;--red:#ef4444;
+  --sand:#fef3c7;--wood:#92400e;--grass:#15803d;
+}
+
+/* ── GRID BG ── */
+.ground{
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0px,rgba(255,255,255,.04) 1px,transparent 1px,transparent 48px),
+    repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0px,rgba(255,255,255,.04) 1px,transparent 1px,transparent 48px),
+    linear-gradient(160deg,#e8f5e9 0%,#f0fdf4 50%,#ecfdf5 100%);
+}
+
+/* ── LAYOUT ── */
+.section{min-height:100vh;padding:70px 32px 100px;position:relative;overflow:hidden;}
+.section-inner{max-width:1140px;margin:0 auto;position:relative;z-index:2;}
+
+/* ── FOOTER ── */
+.page-footer{
+  background:linear-gradient(90deg,#14532d,#166534);
+  padding:14px 32px;
+  position:relative;z-index:10;
+}
+.footer-inner{
+  max-width:1140px;margin:0 auto;
+  display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;
+}
+.footer-text{font-size:.82rem;color:rgba(255,255,255,.9);font-weight:600;}
+.footer-yt{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:30px;
+  padding:5px 14px 5px 10px;
+  text-decoration:none;
+  color:white;
+  font-size:.78rem;
+  font-weight:700;
+  transition:background .2s,transform .2s;
+}
+.footer-yt:hover{background:rgba(255,0,0,.35);transform:scale(1.04);}
+
+/* ── TYPOGRAPHY ── */
+.f-fun{font-family:'Fredoka One',cursive;}
+.f-mono{font-family:'JetBrains Mono',monospace;}
+
+/* ── BLOBS ── */
+.blob{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.22;}
+.blob-g{background:radial-gradient(circle,#86efac,#22c55e);}
+.blob-b{background:radial-gradient(circle,#93c5fd,#3b82f6);}
+.blob-p{background:radial-gradient(circle,#c4b5fd,#8b5cf6);}
+.blob-o{background:radial-gradient(circle,#fed7aa,#f97316);}
+.blob-t{background:radial-gradient(circle,#99f6e4,#14b8a6);}
+
+/* ── BADGES ── */
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:30px;font-weight:600;}
+.badge-green{background:var(--green-l);color:var(--green-d);}
+.badge-blue{background:#dbeafe;color:#1d4ed8;}
+.badge-purple{background:#ede9fe;color:#6d28d9;}
+.badge-orange{background:#ffedd5;color:#c2410c;}
+.badge-teal{background:#ccfbf1;color:#0f766e;}
+.badge-pink{background:#fce7f3;color:#9d174d;}
+.badge-behav{background:#fef9c3;color:#a16207;}
+.badge-inter{background:#fce7f3;color:#9d174d;}
+
+/* ── CARDS ── */
+.diag-card{background:white;border-radius:20px;overflow:hidden;box-shadow:0 4px 0 rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s;position:relative;}
+.diag-card:hover{transform:translateY(-5px) rotate(.4deg);box-shadow:0 12px 40px rgba(0,0,0,.12),0 4px 0 rgba(0,0,0,.08);}
+.card-header{padding:16px 20px 12px;display:flex;align-items:center;gap:12px;}
+.card-num{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:1rem;color:white;flex-shrink:0;}
+.card-title{font-family:'Fredoka One',cursive;font-size:1.1rem;line-height:1.15;}
+.card-body{padding:0 20px 16px;font-size:.84rem;color:#374151;line-height:1.65;}
+.diag-img-wrap{margin:0 16px 0;border-radius:12px;overflow:hidden;background:#f8fafc;border:2px solid #e2e8f0;}
+.diag-img-wrap img{width:100%;display:block;}
+.img-caption{text-align:center;font-size:.68rem;font-family:'JetBrains Mono',monospace;color:#94a3b8;padding:5px 10px 8px;background:#f8fafc;border-top:1px solid #e2e8f0;}
+.analogy-box{margin:12px 20px 16px;background:#f0fdf4;border:1.5px dashed var(--green);border-radius:12px;padding:12px 14px;font-size:.82rem;color:#166534;line-height:1.65;}
+.analogy-box .senac-tag{display:inline-block;background:#14532d;color:white;font-size:.6rem;font-weight:700;padding:2px 8px;border-radius:20px;margin-bottom:6px;letter-spacing:.05em;}
+
+/* ── CALLOUT ── */
+.callout{border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin:20px 0;}
+.callout-em{background:#f0fdf4;border:2px solid #86efac;}
+.callout-warn{background:#fffbeb;border:2px solid #fde68a;}
+.callout-info{background:#eff6ff;border:2px solid #bfdbfe;}
+.callout-icon{font-size:1.4rem;flex-shrink:0;margin-top:1px;}
+.callout-title{font-weight:800;font-size:.92rem;margin-bottom:3px;}
+.callout-body{font-size:.85rem;color:#374151;line-height:1.65;}
+
+/* ── EYEBROW ── */
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--green-d);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.sec-eyebrow::after{content:'';flex:0 0 28px;height:2px;background:var(--green);border-radius:2px;}
+
+/* ── DIVIDER ── */
+.divider{height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);margin:48px 0;opacity:.3;}
+
+/* ── STICKY ── */
+.sticky{background:var(--yellow);border-radius:6px 6px 4px 4px;padding:8px 14px;font-weight:700;font-size:.8rem;display:inline-block;transform:rotate(-2deg);box-shadow:2px 3px 8px rgba(0,0,0,.12);color:#78350f;position:relative;}
+.sticky::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:12px;height:6px;background:#d97706;border-radius:0 0 6px 6px;}
+
+/* ── CATEGORY BANNERS ── */
+.cat-banner{border-radius:16px;padding:20px 24px;margin:48px 0 32px;display:flex;align-items:center;gap:16px;position:relative;overflow:hidden;}
+.cat-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.3),rgba(255,255,255,.0));border-radius:16px;}
+.cat-icon{font-size:2.2rem;position:relative;z-index:1;}
+.cat-text{position:relative;z-index:1;}
+.cat-title{font-family:'Fredoka One',cursive;font-size:1.35rem;line-height:1.1;}
+.cat-sub{font-size:.82rem;opacity:.85;margin-top:2px;}
+.cat-structural{background:linear-gradient(135deg,#dbeafe,#ede9fe);}
+.cat-behavioral{background:linear-gradient(135deg,#fef9c3,#d1fae5);}
+.cat-interaction{background:linear-gradient(135deg,#fce7f3,#ffedd5);}
+
+/* ── GRIDS ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px;}
+@media(max-width:680px){.grid-2,.grid-3,.grid-auto{grid-template-columns:1fr;}}
+
+/* ── HERO ── */
+#capa{background:radial-gradient(ellipse 80% 70% at 50% 40%,#d1fae5 0%,transparent 65%),linear-gradient(180deg,#f0fdf4 0%,#ecfdf5 100%);display:flex;align-items:center;padding:0;min-height:100vh;}
+.hero-grass{position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(180deg,transparent,#bbf7d0 40%,#86efac);border-radius:100% 100% 0 0/40px 40px 0 0;z-index:1;}
+.hero-content{max-width:1140px;margin:0 auto;padding:100px 40px 100px;position:relative;z-index:5;width:100%;}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;background:white;border:2px solid var(--green);border-radius:30px;padding:6px 18px 6px 10px;font-size:.78rem;font-weight:700;color:var(--green-d);margin-bottom:24px;}
+.hero-kicker-dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);}
+.hero-title{font-family:'Fredoka One',cursive;font-size:clamp(3rem,7vw,6.5rem);line-height:1.0;letter-spacing:-.01em;color:#14532d;margin-bottom:20px;}
+.hero-title span{color:var(--green);}
+.hero-desc{font-size:clamp(.95rem,1.5vw,1.1rem);color:#166534;max-width:520px;margin-bottom:40px;line-height:1.75;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px;}
+.hero-facts{display:flex;gap:20px;flex-wrap:wrap;}
+.fact-box{background:white;border-radius:14px;padding:16px 20px;border:2px solid #bbf7d0;text-align:center;min-width:100px;box-shadow:0 2px 8px rgba(34,197,94,.1);}
+.fact-num{font-family:'Fredoka One',cursive;font-size:2rem;color:var(--green-d);line-height:1;}
+.fact-label{font-size:.72rem;color:#374151;margin-top:2px;}
+
+/* ── TOC ── */
+.toc-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1.5px dashed #d1fae5;text-decoration:none;color:inherit;transition:transform .2s;}
+.toc-row:hover{transform:translateX(8px);}
+.toc-row:hover .toc-title{color:var(--green-d);}
+.toc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.toc-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#94a3b8;min-width:28px;}
+.toc-title{font-weight:700;font-size:.92rem;flex:1;transition:color .2s;}
+.toc-pg{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#94a3b8;}
+
+/* ── ANIMATIONS ── */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes wiggle{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.float{animation:float 4s ease-in-out infinite;}
+.wiggle{animation:wiggle 3s ease-in-out infinite;}
+.anim-up{animation:fadeUp .7s ease both;}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
+
+/* ── NAV ── */
+.fixed-nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:2px solid #bbf7d0;border-radius:50px;padding:7px 14px;z-index:100;box-shadow:0 4px 20px rgba(34,197,94,.15);}
+.n-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;cursor:pointer;transition:all .2s;}
+.n-dot.active,.n-dot:hover{background:var(--green);transform:scale(1.4);}
+
+/* ── SENAC TABLE ── */
+.simple-table{width:100%;border-collapse:collapse;font-size:.84rem;}
+.simple-table th{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;color:#6b7280;border-bottom:2px solid #d1fae5;text-align:left;}
+.simple-table td{padding:11px 14px;border-bottom:1px solid #d1fae5;color:#374151;vertical-align:top;}
+.simple-table tr:hover td{background:rgba(34,197,94,.03);}
+
+/* ── PHASE TIMELINE ── */
+.phase-timeline{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;margin:32px 0;position:relative;}
+.phase-timeline::before{content:'';position:absolute;top:30px;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--green-d));z-index:1;}
+.phase-item{position:relative;z-index:2;}
+.phase-dot{width:60px;height:60px;border-radius:50%;background:white;border:3px solid var(--green);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:1.2rem;box-shadow:0 2px 8px rgba(34,197,94,.2);}
+.phase-label{text-align:center;font-weight:700;font-size:.82rem;color:#166534;}
+.phase-desc{text-align:center;font-size:.75rem;color:#6b7280;margin-top:6px;line-height:1.5;}
+
+/* ── VANTAGENS/DESAFIOS GRID ── */
+.advantage-card{background:#f0fdf4;border:2px solid #86efac;border-radius:14px;padding:16px;position:relative;}
+.advantage-card::before{content:'✓';position:absolute;top:12px;right:14px;font-size:1.8rem;color:#22c55e;}
+.challenge-card{background:#fffbeb;border:2px solid #fde68a;border-radius:14px;padding:16px;position:relative;}
+.challenge-card::before{content:'⚠';position:absolute;top:12px;right:14px;font-size:1.8rem;color:#f97316;}
+
+@media(max-width:1024px){
+  .section{padding:60px 20px 90px;}
+  .hero-content{padding:90px 24px 90px;}
+}
+@media(max-width:768px){
+  .section{padding:54px 16px 86px;min-height:auto;}
+  .page-footer{padding:14px 16px;}
+  .hero-content{padding:78px 16px 88px;}
+  .hero-facts{gap:10px;}
+  .fact-box{min-width:unset;flex:1 1 calc(50% - 10px);padding:12px 10px;}
+  .fact-num{font-size:1.55rem;}
+  .cat-banner{padding:16px;margin:34px 0 24px;}
+  .cat-title{font-size:1.1rem;}
+  .callout{padding:14px 14px;gap:10px;}
+  .card-header,.card-body{padding-left:14px;padding-right:14px;}
+  .toc-row{gap:10px;align-items:flex-start;}
+  .toc-pg{display:none;}
+  .simple-table{display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;}
+  .phase-timeline{grid-template-columns:repeat(2,1fr);gap:14px;}
+  .phase-timeline::before{display:none;}
+  .fixed-nav{left:12px;right:12px;transform:none;bottom:10px;max-width:none;overflow-x:auto;justify-content:flex-start;padding:7px 10px;}
+  .fixed-nav::-webkit-scrollbar{display:none;}
+  #global-nav div{padding:10px 12px !important;gap:6px !important;}
+  #global-nav strong{font-size:.68rem !important;}
+  #global-nav a{font-size:.7rem !important;padding:4px 8px !important;}
+  [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;gap:24px !important;}
+}
+@media(max-width:560px){
+  .fact-box{flex:1 1 100%;}
+  .phase-timeline{grid-template-columns:1fr;}
+}
+
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#f0fdf4;}
+::-webkit-scrollbar-thumb{background:#86efac;border-radius:3px;}
+</style>
+</head>
+<body>
+<header id="global-nav" style="position:sticky;top:0;z-index:120;background:rgba(15,23,42,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.18);">
+  <div style="max-width:1140px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+    <strong style="color:#e2e8f0;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;">Navegar:</strong>
+    <a href="cascata-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Cascata</a>
+    <a href="espiral-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Espiral</a>
+    <a href="prototipacao-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Prototipacao</a>
+    <a href="rup-irup-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">RUP/iRUP</a>
+    <a href="scrum-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Scrum</a>
+    <a href="xp-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">XP</a>
+    <a href="uml-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">UML</a>
+  </div>
+</header>
+<script>
+(function(){
+  const page = (location.pathname.split('/').pop() || '');
+  document.querySelectorAll('#global-nav a').forEach((a) => {
+    if (a.getAttribute('href') === page) {
+      a.style.background = '#f97316';
+      a.style.color = '#111827';
+      a.style.borderColor = '#fdba74';
+      a.style.fontWeight = '800';
+    }
+  });
+})();
+</script>
+
+<nav class="fixed-nav" id="nav">
+  <div class="n-dot active" onclick="goTo('#capa')" title="Capa"></div>
+  <div class="n-dot" onclick="goTo('#indice')" title="Índice"></div>
+  <div class="n-dot" onclick="goTo('#contexto')" title="Contexto"></div>
+  <div class="n-dot" onclick="goTo('#fundamentos')" title="Fundamentos"></div>
+  <div class="n-dot" onclick="goTo('#fases')" title="Fases"></div>
+  <div class="n-dot" onclick="goTo('#vantagens')" title="Vantagens"></div>
+  <div class="n-dot" onclick="goTo('#desafios')" title="Desafios"></div>
+  <div class="n-dot" onclick="goTo('#decisao')" title="Quando usar"></div>
+</nav>
+
+<!-- ═══════════════════════════════════ P.01 CAPA ═══ -->
+<section id="capa" class="section" style="padding:0;min-height:100vh;">
+  <div class="blob blob-g" style="width:500px;height:500px;top:-100px;left:-100px;"></div>
+  <div class="blob blob-b" style="width:300px;height:300px;top:30%;right:-80px;"></div>
+  
+  <div class="hero-content">
+    <div class="hero-kicker anim-up">
+      <div class="hero-kicker-dot"></div>
+      🎓 SENAC · 1º Semestre · Engenharia de Software
+    </div>
+    <h1 class="hero-title anim-up d1">
+      Waterfall<br><span>Casca&shy;ta</span> 💧
+    </h1>
+    <p class="hero-desc anim-up d2">
+      Um guia visual e estratégico para quem está começando. Descubra como a <strong>Metodologia Cascata</strong> funciona, suas <strong>6 fases</strong>, vantagens em projetos estruturados e os desafios da rigidez.
+    </p>
+    <div class="hero-tags anim-up d3">
+      <span class="badge badge-blue">📋 6 Fases Sequenciais</span>
+      <span class="badge badge-behav">💼 Previsibilidade Total</span>
+      <span class="badge badge-inter">📊 Documentação Densa</span>
+      <span class="badge badge-green">🎓 Exemplos Práticos</span>
+      <span class="badge badge-orange">Desde 1970!</span>
+    </div>
+    <div class="hero-facts anim-up d4">
+      <div class="fact-box float"><div class="fact-num">6</div><div class="fact-label">Fases</div></div>
+      <div class="fact-box float" style="animation-delay:.3s;"><div class="fact-num">51%</div><div class="fact-label">Orgs. usam</div></div>
+      <div class="fact-box float" style="animation-delay:.6s;"><div class="fact-num">1970</div><div class="fact-label">Desde</div></div>
+      <div class="fact-box float" style="animation-delay:.9s;"><div class="fact-num">∞</div><div class="fact-label">Documentação</div></div>
+    </div>
+  </div>
+
+  <div class="hero-grass"></div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong>
+    </div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ P.02 ÍNDICE ═══ -->
+<section id="indice" class="section" style="background:white;">
+  <div class="blob blob-p" style="width:300px;height:300px;top:-60px;right:-60px;opacity:.12;"></div>
+  <div class="section-inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;">
+      <div>
+        <div class="sec-eyebrow">Sumário</div>
+        <h2 class="f-fun" style="font-size:clamp(2.2rem,5vw,3.8rem);color:#14532d;line-height:1;margin-bottom:32px;">
+          O que tem<br>nesta edição?
+        </h2>
+        <div>
+          <a href="#contexto" class="toc-row"><div class="toc-icon" style="background:#d1fae5;">📚</div><span class="toc-num">01</span><span class="toc-title">Contexto e Relevância — Por que ainda existe?</span><span class="toc-pg">P.03</span></a>
+          <a href="#fundamentos" class="toc-row"><div class="toc-icon" style="background:#dbeafe;">🏗️</div><span class="toc-num">02</span><span class="toc-title">Fundamentos — Princípios da Cascata</span><span class="toc-pg">P.04</span></a>
+          <a href="#fases" class="toc-row"><div class="toc-icon" style="background:#fef9c3;">📋</div><span class="toc-num">03</span><span class="toc-title">As 6 Fases — Do Requisito à Manutenção</span><span class="toc-pg">P.05</span></a>
+          <a href="#vantagens" class="toc-row"><div class="toc-icon" style="background:#fce7f3;">✅</div><span class="toc-num">04</span><span class="toc-title">Vantagens — Quando brilha?</span><span class="toc-pg">P.06</span></a>
+          <a href="#desafios" class="toc-row"><div class="toc-icon" style="background:#ffedd5;">⚠️</div><span class="toc-num">05</span><span class="toc-title">Desafios — Os Riscos</span><span class="toc-pg">P.07</span></a>
+          <a href="#decisao" class="toc-row" style="border-bottom:none;"><div class="toc-icon" style="background:#fef3c7;">🎯</div><span class="toc-num">06</span><span class="toc-title">Quando Usar? — Framework de Decisão</span><span class="toc-pg">P.08</span></a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div class="callout callout-info">
+          <div class="callout-icon">🏗️</div>
+          <div>
+            <div class="callout-title" style="color:#1d4ed8;">Waterfall = Engenharia Civil</div>
+            <div class="callout-body">A Cascata é inspirada em como construir um prédio: você não começa cobrindo o telhado antes de fazer a fundação. Tudo em sequência, cada etapa preparando a próxima.</div>
+          </div>
+        </div>
+        <div style="background:white;border-radius:16px;padding:22px;border:2px solid #d1fae5;box-shadow:0 2px 12px rgba(0,0,0,.05);">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#6b7280;letter-spacing:.1em;margin-bottom:14px;">OS 3 PONTOS-CHAVE</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#d1fae5;border-radius:10px;">
+              <span style="font-size:1.3rem;">📐</span>
+              <div><div style="font-weight:800;font-size:.88rem;color:#166534;">Linear</div><div style="font-size:.75rem;color:#166534;">Cada fase depende da anterior</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#fef9c3;border-radius:10px;">
+              <span style="font-size:1.3rem;">📝</span>
+              <div><div style="font-weight:800;font-size:.88rem;color:#a16207;">Documentado</div><div style="font-size:.75rem;color:#a16207;">Tudo registrado em detalhe</div></div>
+            </div>
+            <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#eff6ff;border-radius:10px;">
+              <span style="font-size:1.3rem;">📊</span>
+              <div><div style="font-weight:800;font-size:.88rem;color:#1d4ed8;">Previsível</div><div style="font-size:.75rem;color:#1d4ed8;">Custos e prazos planejados</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-em">
+          <div class="callout-icon">💡</div>
+          <div>
+            <div class="callout-title" style="color:#166534;">Estatística importante</div>
+            <div class="callout-body">Segundo o Project Management Institute (PMI), <strong>51% das organizações</strong> ainda utilizam o modelo Cascata com frequência ou sempre.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong>
+    </div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ P.03 CONTEXTO ═══ -->
+<section id="contexto" class="section ground">
+  <div class="blob blob-g" style="width:350px;height:350px;bottom:-80px;right:-80px;opacity:.12;"></div>
+  <div class="section-inner">
+    <div class="sec-eyebrow">Origem e Contexto · P.03</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;margin-bottom:44px;">
+      <div>
+        <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.6rem);color:#14532d;line-height:1;margin-bottom:18px;">Waterfall (Cascata) 💧</h2>
+        <p style="font-size:.93rem;color:#374151;line-height:1.8;margin-bottom:14px;"><strong>Cascata</strong> (ou <strong>Waterfall</strong) é um modelo de desenvolvimento de software <strong>linear e sequencial</strong>, onde cada fase deve ser completamente finalizada, documentada e validada antes que a próxima inicie.</p>
+        <p style="font-size:.93rem;color:#374151;line-height:1.8;margin-bottom:18px;">Formalizado e amplamente difundido a partir dos trabalhos de <strong>Winston W. Royce em 1970</strong>, o modelo permanece como um pilar fundamental da engenharia de software apesar da ascensão das metodologias ágeis.</p>
+        <div class="callout callout-warn">
+          <div class="callout-icon">📊</div>
+          <div>
+            <div class="callout-title" style="color:#92400e;">Ainda muito vivo!</div>
+            <div class="callout-body">51% das organizações utilizam Cascata com frequência, e em certos setores (bancário, saúde, defesa) ela é amplamente adotada por exigências regulatórias e de rastreabilidade.</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="background:white;border-radius:20px;padding:22px;border:2px solid #bbf7d0;box-shadow:0 4px 20px rgba(34,197,94,.1);">
+          <div class="sticky" style="margin-bottom:16px;display:inline-block;">🏗️ Analogia: Construção Civil</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px;">
+            <div style="text-align:center;padding:14px;background:#eff6ff;border-radius:12px;border:1.5px solid #bfdbfe;">
+              <div style="font-size:1.8rem;margin-bottom:6px;">🏢</div>
+              <div style="font-weight:800;font-size:.82rem;color:#1d4ed8;margin-bottom:4px;">Construir um Prédio</div>
+              <div style="font-size:.73rem;color:#374151;line-height:1.5;">Fundação → Estrutura → Paredes → Telhado. Você <em>não</em> coloca o telhado antes da fundação.</div>
+            </div>
+            <div style="text-align:center;padding:14px;background:#d1fae5;border-radius:12px;border:1.5px solid #86efac;">
+              <div style="font-size:1.8rem;margin-bottom:6px;">💻</div>
+              <div style="font-weight:800;font-size:.82rem;color:#166534;margin-bottom:4px;">Desenvolver Software</div>
+              <div style="font-size:.73rem;color:#374151;line-height:1.5;">Requisitos → Design → Código → Testes. Cada fase depende da anterior.</div>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding:11px 14px;background:#fef3c7;border-radius:10px;border:1.5px dashed #fbbf24;font-size:.82rem;color:#78350f;line-height:1.6;">
+            <strong>Conclusão:</strong> O modelo Cascata é a aplicação de princípios de <strong>engenharia tradicional</strong> ao desenvolvimento de software. É robusto, previsível e adequado quando você <em>sabe exatamente o que vai construir</em>. 🎯
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3 class="f-fun" style="font-size:1.5rem;color:#14532d;margin-bottom:18px;">Por que o Cascata continua sendo importante? 💡</h3>
+    <div class="grid-3">
+      <div style="background:white;border-radius:14px;padding:18px;border:2px solid #dbeafe;">
+        <div style="font-size:1.7rem;margin-bottom:8px;">🏦</div>
+        <div style="font-weight:800;margin-bottom:5px;color:#1d4ed8;">Setores Regulados</div>
+        <div style="font-size:.84rem;color:#374151;line-height:1.6;">Bancos, saúde, aviação, defesa exigem trilhas de auditoria e documentação robusta. O Cascata oferece isso naturalmente.</div>
+      </div>
+      <div style="background:white;border-radius:14px;padding:18px;border:2px solid #dcfce7;">
+        <div style="font-size:1.7rem;margin-bottom:8px;">🧮</div>
+        <div style="font-weight:800;margin-bottom:5px;color:#166534;">Previsibilidade</div>
+        <div style="font-size:.84rem;color:#374151;line-height:1.6;">Orçamentos e cronogramas fixos. Essencial para licitações públicas e contratos com verbas estritas.</div>
+      </div>
+      <div style="background:white;border-radius:14px;padding:18px;border:2px solid #fce7f3;">
+        <div style="font-size:1.7rem;margin-bottom:8px;">🔒</div>
+        <div style="font-weight:800;margin-bottom:5px;color:#9d174d;">Hardware/Infraestrutura</div>
+        <div style="font-size:.84rem;color:#374151;line-height:1.6;">Modificações tardias custam caro. Melhor planejar tudo no início e não mudar mais.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong>
+    </div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ P.04 FUNDAMENTOS ═══ -->
+<section id="fundamentos" class="section" style="background:white;">
+  <div class="blob blob-b" style="width:350px;height:350px;top:-60px;left:-80px;opacity:.08;"></div>
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.04 · Fundamentos</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.6rem);color:#14532d;line-height:1;margin-bottom:32px;">Os Princípios da Cascata 🏗️</h2>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:48px;">
+      <div style="background:#eff6ff;border-radius:14px;padding:18px;border:2px solid #bfdbfe;">
+        <div style="font-size:1.4rem;margin-bottom:10px;">🔗</div>
+        <div style="font-weight:800;margin-bottom:5px;color:#1d4ed8;font-size:.95rem;">Sequencialidade Rígida</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Não há sobreposição de fases. A saída de uma etapa serve como entrada para a próxima.</div>
+      </div>
+      <div style="background:#d1fae5;border-radius:14px;padding:18px;border:2px solid #86efac;">
+        <div style="font-size:1.4rem;margin-bottom:10px;">📚</div>
+        <div style="font-weight:800;margin-bottom:5px;color:#166534;font-size:.95rem;">Orientação à Documentação</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Cada fase gera documentos detalhados. A documentação é o ativo principal do projeto.</div>
+      </div>
+      <div style="background:#fef9c3;border-radius:14px;padding:18px;border:2px solid #fde68a;">
+        <div style="font-size:1.4rem;margin-bottom:10px;">🎯</div>
+        <div style="font-weight:800;margin-bottom:5px;color:#a16207;font-size:.95rem;">Controle de Escopo</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">O planejamento é exaustivo no início, visando minimizar mudanças durante a execução.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">⚡</div>
+      <div>
+        <div class="callout-title" style="color:#1d4ed8;">O Fluxo Linear</div>
+        <div class="callout-body"><strong style="font-family:'JetBrains Mono',monospace;">Requisitos → Análise/Design → Implementação → Testes → Implantação → Manutenção</strong><br><br>Cada seta representa uma dependência obrigatória. A progressão é sempre para frente, nunca para trás (no modelo puro).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong>
+    </div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ P.05 FASES ═══ -->
+<section id="fases" class="section ground">
+  <div class="blob blob-o" style="width:350px;height:350px;bottom:-80px;left:-80px;opacity:.12;"></div>
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.05 · Fases Sequenciais</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.6rem);color:#14532d;line-height:1;margin-bottom:32px;">As 6 Fases do Cascata 📋</h2>
+    
+    <div class="phase-timeline">
+      <div class="phase-item">
+        <div class="phase-dot" style="background:#3b82f6;color:white;">1</div>
+        <div class="phase-label">Requisitos</div>
+        <div class="phase-desc">Coleta e Documentação</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot" style="background:#8b5cf6;color:white;">2</div>
+        <div class="phase-label">Análise</div>
+        <div class="phase-desc">Viabilidade e Planejamento</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot" style="background:#ec4899;color:white;">3</div>
+        <div class="phase-label">Design</div>
+        <div class="phase-desc">Arquitetura e Diagramas</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot" style="background:#f97316;color:white;">4</div>
+        <div class="phase-label">Implementação</div>
+        <div class="phase-desc">Codificação</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot" style="background:#eab308;color:white;">5</div>
+        <div class="phase-label">Testes</div>
+        <div class="phase-desc">Verificação Completa</div>
+      </div>
+      <div class="phase-item">
+        <div class="phase-dot" style="background:#22c55e;color:white;">6</div>
+        <div class="phase-label">Manutenção</div>
+        <div class="phase-desc">Suporte Pós-Lançamento</div>
+      </div>
+    </div>
+
+    <div style="margin-top:48px;display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+      <div class="diag-card">
+        <div class="card-header">
+          <div class="card-num" style="background:#3b82f6;">1</div>
+          <div><div class="card-title" style="color:#1d4ed8;">Levantamento de Requisitos</div></div>
+        </div>
+        <div class="card-body">
+          <strong>O que fazemos:</strong> Coleta exaustiva de todas as necessidades do cliente, objetivos do sistema, regras de negócio, critérios de aceitação.<br><br>
+          <strong>Documentos gerados:</strong> Especificação de Requisitos, Glossário de Termos, Critérios de Aceite.<br><br>
+          <strong>Insight-chave:</strong> O custo da mudança aqui é BAIXO. Após aprovação, qualquer alteração será exponencialmente custosa.
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="card-header">
+          <div class="card-num" style="background:#8b5cf6;">2</div>
+          <div><div class="card-title" style="color:#6d28d9;">Análise e Planejamento</div></div>
+        </div>
+        <div class="card-body">
+          <strong>O que fazemos:</strong> Avaliação de viabilidade técnica e organizacional, definição da arquitetura-base, cálculo de orçamentos totais e cronogramas detalhados.<br><br>
+          <strong>Documentos gerados:</strong> Plano de Projeto, Cronograma de Gantt, Orçamento Detalhado, Matriz de Alocação de Recursos.<br><br>
+          <strong>Insight-chave:</strong> Aqui você "trava" os números. Mudanças tardias custam caro.
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="card-header">
+          <div class="card-num" style="background:#ec4899;">3</div>
+          <div><div class="card-title" style="color:#be185d;">Design e Modelagem</div></div>
+        </div>
+        <div class="card-body">
+          <strong>O que fazemos:</strong> Transformação de requisitos em planos técnicos. Criação de diagramas UML, modelagem de banco de dados, prototipagem de interface (UI/UX).<br><br>
+          <strong>Documentos gerados:</strong> Diagramas de Classes, Diagramas E-R, Wireframes, Especificação Técnica, Arquitetura de Sistema.<br><br>
+          <strong>Insight-chave:</strong> O design é o "mapa" que os desenvolvedores seguirão. Qualidade aqui = menos problemas depois.
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="card-header">
+          <div class="card-num" style="background:#f97316;">4</div>
+          <div><div class="card-title" style="color:#c2410c;">Implementação (Codificação)</div></div>
+        </div>
+        <div class="card-body">
+          <strong>O que fazemos:</strong> A equipe escreve o código seguindo estritamente o design aprovado. Foco total na execução com "Visão de Túnel".<br><br>
+          <strong>Documentos gerados:</strong> Código Fonte, Comentários Técnicos, Logs de Desenvolvimento.<br><br>
+          <strong>Insight-chave:</strong> Nesta etapa, os desenvolvedores não têm margem para criatividade ou mudanças. O escopo está fechado.
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="card-header">
+          <div class="card-num" style="background:#eab308;">5</div>
+          <div><div class="card-title" style="color:#a16207;">Testes e Verificação</div></div>
+        </div>
+        <div class="card-body">
+          <strong>O que fazemos:</strong> Verificação minuciosa após o sistema estar completo. Inclui testes unitários, de integração, de sistema e de aceitação.<br><br>
+          <strong>Documentos gerados:</strong> Relatórios de Testes, Casos de Teste, Registro de Bugs, Matriz de Rastreabilidade.<br><br>
+          <strong>Insight-chave:</strong> Erros descobertos AQUI custam MUITO. Se um erro de requisito for achado, já é tarde demais.
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="card-header">
+          <div class="card-num" style="background:#22c55e;">6</div>
+          <div><div class="card-title" style="color:#166534;">Implantação e Manutenção</div></div>
+        </div>
+        <div class="card-body">
+          <strong>O que fazemos:</strong> Entrega do produto final ao cliente. Início do suporte técnico, correções reativas (bugs) e atualizações pontuais conforme necessidade.<br><br>
+          <strong>Documentos gerados:</strong> Manual do Usuário, Plano de Suporte, Changelog de Versões, Relatórios de Incidentes.<br><br>
+          <strong>Insight-chave:</strong> O projeto nunca "termina" totalmente. Há sempre manutenção, patches e correções em produção.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong>
+    </div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ P.06 VANTAGENS ═══ -->
+<section id="vantagens" class="section" style="background:white;">
+  <div class="blob blob-p" style="width:350px;height:350px;top:-60px;right:-80px;opacity:.08;"></div>
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.06 · Quando Brilha</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.6rem);color:#14532d;line-height:1;margin-bottom:32px;">Vantagens da Cascata ✅</h2>
+    
+    <div class="grid-2" style="margin-bottom:48px;">
+      <div class="advantage-card">
+        <div style="font-weight:800;color:#166534;margin-bottom:8px;font-size:.95rem;">💰 Previsibilidade Financeira</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Permite estimativas precisas de cronograma e custos totais logo no início. Ideal para contratos com verbas estritas, licitações públicas e orçamentos fixos.</div>
+      </div>
+
+      <div class="advantage-card">
+        <div style="font-weight:800;color:#166534;margin-bottom:8px;font-size:.95rem;">📚 Documentação Robusta</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Gera rastreabilidade total. Facilita auditorias, conformidade regulatória (ISO, CMMI) e entrada de novos membros na equipe.</div>
+      </div>
+
+      <div class="advantage-card">
+        <div style="font-weight:800;color:#166534;margin-bottom:8px;font-size:.95rem;">📋 Disciplina e Organização</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Marcos claros de progresso. Se uma etapa acabou, ela está 100% pronta. Fácil de acompanhar e reportar.</div>
+      </div>
+
+      <div class="advantage-card">
+        <div style="font-weight:800;color:#166534;margin-bottom:8px;font-size:.95rem;">🏗️ Arquitetura Robusta</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">O foco inicial em design ajuda a evitar erros estruturais que poderiam comprometer a codificação toda.</div>
+      </div>
+
+      <div class="advantage-card">
+        <div style="font-weight:800;color:#166534;margin-bottom:8px;font-size:.95rem;">👥 Independência de Talento</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">A documentação robusta permite que novos membros entrem sem perder o contexto. Ideal para times rotativos ou distribuídos.</div>
+      </div>
+
+      <div class="advantage-card">
+        <div style="font-weight:800;color:#166534;margin-bottom:8px;font-size:.95rem;">🎯 Requisitos Claros</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Quando os requisitos são estáveis e bem compreendidos desde o início, o Cascata garante que o produto final atenderá a essas expectativas.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-em">
+      <div class="callout-icon">🎯</div>
+      <div>
+        <div class="callout-title" style="color:#166534;">Resumo: Quando o Cascata vence</div>
+        <div class="callout-body">O Cascata é <strong>invencível</strong> quando: requisitos são claros e estáveis, orçamento é fixo, compliance é obrigatório, e mudanças são caras. É o campeão de <strong>previsibilidade</strong> e <strong>documentação</strong>.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong>
+    </div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ P.07 DESAFIOS ═══ -->
+<section id="desafios" class="section ground">
+  <div class="blob blob-t" style="width:350px;height:350px;bottom:-80px;right:-80px;opacity:.12;"></div>
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.07 · Os Perigos</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.6rem);color:#14532d;line-height:1;margin-bottom:32px;">Desafios e Riscos ⚠️</h2>
+    
+    <div class="grid-2" style="margin-bottom:48px;">
+      <div class="challenge-card">
+        <div style="font-weight:800;color:#92400e;margin-bottom:8px;font-size:.95rem;">🔒 Rigidez a Mudanças</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Alterar requisitos do meio do processo exige replanejamento formal caro e demorado. Mercados voláteis sofrem muito aqui.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div style="font-weight:800;color:#92400e;margin-bottom:8px;font-size:.95rem;">🎭 Visão de Túnel</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">O cliente só vê o produto finalizado ("Big Bang"). Risco alto de desalinhamento de expectativas e retrabalho massivo no final.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div style="font-weight:800;color:#92400e;margin-bottom:8px;font-size:.95rem;">⏰ Testes em Estágio Final</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Erros críticos descobertos na fase 5 podem exigir retrabalho nas fases 3 e 4. Custo exponencial de correção.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div style="font-weight:800;color:#92400e;margin-bottom:8px;font-size:.95rem;">🎢 Efeito Dominó</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Como as fases são dependentes, um atraso na etapa inicial compromete <strong>todo</strong> o cronograma subsequente. Não há paralelismo.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div style="font-weight:800;color:#92400e;margin-bottom:8px;font-size:.95rem;">❓ Incerteza Inicial</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">O cliente geralmente não sabe exatamente o que quer no início. Especificar tudo corretamente é muito mais difícil do que parece.</div>
+      </div>
+
+      <div class="challenge-card">
+        <div style="font-weight:800;color:#92400e;margin-bottom:8px;font-size:.95rem;">🚀 Inovação Limitada</div>
+        <div style="font-size:.85rem;color:#374151;line-height:1.65;">Produtos novos, startups e mercados em mudança sofrem. O Cascata foi feito para requisitos estáveis, não dinâmicos.</div>
+      </div>
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">📉</div>
+      <div>
+        <div class="callout-title" style="color:#92400e;">Gráfico: O Custo da Mudança ao Longo das Fases</div>
+        <div class="callout-body">
+          <strong>Fase 1 (Requisitos):</strong> Mudança custa $$$<br>
+          <strong>Fase 2 (Análise):</strong> Mudança custa $$$$ (maior)<br>
+          <strong>Fase 3 (Design):</strong> Mudança custa $$$$$ (muito maior)<br>
+          <strong>Fase 4 (Código):</strong> Mudança custa $$$$$$ (extremamente maior)<br>
+          <strong>Fase 5 (Testes):</strong> Mudança custa $$$$$$$ <strong>EXPONENCIALMENTE MAIOR</strong><br><br>
+          Essa curva crescente é a <strong>"Lei da Mudança Tardia"</strong> do Waterfall.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong>
+    </div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ P.08 DECISÃO ═══ -->
+<section id="decisao" class="section" style="background:white;">
+  <div class="blob blob-g" style="width:350px;height:350px;top:-60px;left:-80px;opacity:.08;"></div>
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.08 · Framework de Decisão</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.6rem);color:#14532d;line-height:1;margin-bottom:32px;">Quando Usar Cascata? 🎯</h2>
+    
+    <div style="background:#f0fdf4;border:2px solid #86efac;border-radius:16px;padding:28px;margin-bottom:32px;">
+      <div class="sec-eyebrow" style="color:#166534;margin-bottom:16px;">✅ Use Waterfall Quando:</div>
+      <div class="grid-3" style="gap:16px;">
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #22c55e;">
+          <div style="font-weight:800;color:#166534;margin-bottom:6px;font-size:.88rem;">🔒 Requisitos Claros e Estáveis</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">O escopo é fixo e não mudará. Ex: Construção de infraestrutura, atualizações pontuais de sistemas legados, hardware.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #22c55e;">
+          <div style="font-weight:800;color:#166534;margin-bottom:6px;font-size:.88rem;">💰 Orçamento e Prazo Fixos</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Contratos de preço fixo, licitações públicas, ou projetos onde teto de custos deve ser garantido.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #22c55e;">
+          <div style="font-weight:800;color:#166534;margin-bottom:6px;font-size:.88rem;">🏦 Setores Regulados</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Aviação, farmacêutica, bancos, defesa, saúde. Compliance obrigatório exige rastreabilidade documental.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #22c55e;">
+          <div style="font-weight:800;color:#166534;margin-bottom:6px;font-size:.88rem;">📊 Documentação Crítica</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Auditorias, certificações ISO/CMMI, projetos muito grandes onde documentação é essencial.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #22c55e;">
+          <div style="font-weight:800;color:#166534;margin-bottom:6px;font-size:.88rem;">🏗️ Modificações Caras</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Hardware, infraestrutura, sistemas embarcados onde mudar depois de construído é muito caro.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #22c55e;">
+          <div style="font-weight:800;color:#166534;margin-bottom:6px;font-size:.88rem;">👥 Times Distribuídos</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Quando a documentação precisa guiar o trabalho sem supervisão constante. Funcionários em turnos ou fusos diferentes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#fffbeb;border:2px solid #fde68a;border-radius:16px;padding:28px;margin-bottom:32px;">
+      <div class="sec-eyebrow" style="color:#92400e;margin-bottom:16px;">❌ Evite Waterfall Quando:</div>
+      <div class="grid-3" style="gap:16px;">
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #f97316;">
+          <div style="font-weight:800;color:#92400e;margin-bottom:6px;font-size:.88rem;">🚀 Inovação de Produtos</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Startups, MVPs, produtos digitais novos onde a solução final é ainda uma hipótese a ser validada.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #f97316;">
+          <div style="font-weight:800;color:#92400e;margin-bottom:6px;font-size:.88rem;">📈 Mercado Volátil</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Necessidades do usuário mudam rapidamente. Competição acirrada exige lançamentos incrementais constantes.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #f97316;">
+          <div style="font-weight:800;color:#92400e;margin-bottom:6px;font-size:.88rem;">🎯 Escopo Indefinido</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Projetos de Discovery onde a solução emerge durante o processo. Requisitos desconhecidos ou emergentes.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #f97316;">
+          <div style="font-weight:800;color:#92400e;margin-bottom:6px;font-size:.88rem;">🤝 Cliente Participativo</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Cliente quer participar ativamente e ver progresso incremental. Quer feedback constante, não entrega final.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #f97316;">
+          <div style="font-weight:800;color:#92400e;margin-bottom:6px;font-size:.88rem;">⚡ Feedback Contínuo Necessário</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Quando aprender com usuários durante o desenvolvimento é crítico. Esperar até o final é arriscado.</div>
+        </div>
+        <div style="padding:14px;background:white;border-radius:10px;border-left:4px solid #f97316;">
+          <div style="font-weight:800;color:#92400e;margin-bottom:6px;font-size:.88rem;">🔄 Mudança é Frequente</div>
+          <div style="font-size:.8rem;color:#374151;line-height:1.5;">Se mudanças forem frequentes e baratas, o Cascata se torna um pesadelo. Use Ágil.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="f-fun" style="font-size:1.4rem;color:#14532d;margin-bottom:24px;">O Futuro é Híbrido 🎯</h3>
+    <div style="background:white;border-radius:16px;padding:24px;border:2px solid #bbf7d0;box-shadow:0 4px 20px rgba(34,197,94,.1);">
+      <p style="font-size:.9rem;color:#374151;line-height:1.8;margin-bottom:14px;">
+        Muitas organizações modernas adotam abordagens <strong>híbridas</strong>. O modelo funciona assim:
+      </p>
+      <div style="background:#f0fdf4;border:1.5px dashed #86efac;border-radius:12px;padding:16px;margin-bottom:14px;font-size:.85rem;font-family:'JetBrains Mono',monospace;color:#166534;line-height:1.7;">
+        <strong>MACRO (Planejamento/Orçamento — Cascata)</strong><br>
+        ↓<br>
+        <strong>MICRO 1 (Execução/Sprints — Ágil)</strong> →<br>
+        <strong>MICRO 2 (Execução/Sprints — Ágil)</strong> →<br>
+        <strong>MICRO 3 (Execução/Sprints — Ágil)</strong><br>
+        ↓<br>
+        <strong>Resultado: Segurança Contratual + Flexibilidade Operacional</strong>
+      </div>
+      <p style="font-size:.85rem;color:#374151;line-height:1.8;">
+        <strong>Exemplo:</strong> Fase de Criação usa Cascata (requisitos, design, orçamento fixo). Fase de Adequação usa Ágil (sprints, feedback contínuo, refinamento baseado em uso real).
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">
+      Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong>
+    </div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════ SCRIPT ═══ -->
+<script>
+function goTo(selector) {
+  const el = document.querySelector(selector);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+    updateNav();
+  }
+}
+
+function updateNav() {
+  const sections = document.querySelectorAll('[id]');
+  const dots = document.querySelectorAll('.n-dot');
+  const scrollPos = window.scrollY + 100;
+  
+  let active = 0;
+  sections.forEach((section, idx) => {
+    if (section.offsetTop <= scrollPos) {
+      active = idx;
+    }
+  });
+  
+  dots.forEach(d => d.classList.remove('active'));
+  if (dots[active]) dots[active].classList.add('active');
+}
+
+window.addEventListener('scroll', updateNav);
+updateNav();
+</script>
+</body>
+</html>

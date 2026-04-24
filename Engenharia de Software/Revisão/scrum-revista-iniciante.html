@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SCRUM · Revista para Iniciantes · SENAC</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:#fffaf0;font-family:'Nunito',sans-serif;color:#1f2937;overflow-x:hidden;}
+:root{
+  --navy:#0f172a;--navy-d:#020617;--navy-l:#dbeafe;
+  --orange:#f97316;--orange-d:#c2410c;--orange-l:#ffedd5;
+  --teal:#14b8a6;--teal-l:#ccfbf1;
+  --yellow:#f59e0b;--yellow-l:#fef3c7;
+  --green:#22c55e;--green-l:#dcfce7;
+  --rose:#fb7185;--rose-l:#ffe4e6;
+}
+.ground{
+  background:
+    radial-gradient(circle at 10% 20%, rgba(249,115,22,.10), transparent 24%),
+    radial-gradient(circle at 90% 25%, rgba(20,184,166,.10), transparent 20%),
+    radial-gradient(circle at 50% 90%, rgba(59,130,246,.07), transparent 20%),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0px,rgba(255,255,255,.04) 1px,transparent 1px,transparent 48px),
+    linear-gradient(160deg,#fff7ed 0%,#fffbeb 52%,#f0fdfa 100%);
+}
+.section{min-height:100vh;padding:70px 32px 100px;position:relative;overflow:hidden;}
+.section-inner{max-width:1140px;margin:0 auto;position:relative;z-index:2;}
+.page-footer{background:linear-gradient(90deg,#0f172a,#1e293b);padding:14px 32px;position:relative;z-index:10;}
+.footer-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.footer-text{font-size:.82rem;color:rgba(255,255,255,.9);font-weight:600;}
+.footer-yt{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:30px;padding:5px 14px 5px 10px;text-decoration:none;color:white;font-size:.78rem;font-weight:700;transition:background .2s,transform .2s;}
+.footer-yt:hover{background:rgba(255,0,0,.28);transform:scale(1.04);}
+.f-fun{font-family:'Fredoka One',cursive;}
+.f-mono{font-family:'JetBrains Mono',monospace;}
+.blob{position:absolute;border-radius:50%;filter:blur(60px);pointer-events:none;opacity:.22;}
+.blob-o{background:radial-gradient(circle,#fdba74,#f97316);}
+.blob-t{background:radial-gradient(circle,#5eead4,#14b8a6);}
+.blob-b{background:radial-gradient(circle,#93c5fd,#3b82f6);}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:30px;font-weight:600;}
+.badge-orange{background:var(--orange-l);color:var(--orange-d);}
+.badge-teal{background:var(--teal-l);color:#0f766e;}
+.badge-yellow{background:var(--yellow-l);color:#92400e;}
+.badge-green{background:var(--green-l);color:#166534;}
+.badge-navy{background:#e2e8f0;color:#334155;}
+.diag-card{background:white;border-radius:20px;overflow:hidden;box-shadow:0 4px 0 rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);transition:transform .25s,box-shadow .25s;position:relative;}
+.diag-card:hover{transform:translateY(-5px) rotate(.35deg);box-shadow:0 12px 40px rgba(0,0,0,.12),0 4px 0 rgba(0,0,0,.08);}
+.card-header{padding:16px 20px 12px;display:flex;align-items:center;gap:12px;}
+.card-num{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:1rem;color:white;flex-shrink:0;}
+.card-title{font-family:'Fredoka One',cursive;font-size:1.08rem;line-height:1.15;}
+.card-body{padding:0 20px 16px;font-size:.84rem;color:#374151;line-height:1.65;}
+.callout{border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start;margin:20px 0;}
+.callout-info{background:#eff6ff;border:2px solid #bfdbfe;}
+.callout-warn{background:#fffbeb;border:2px solid #fde68a;}
+.callout-em{background:#fff7ed;border:2px solid #fdba74;}
+.callout-icon{font-size:1.4rem;flex-shrink:0;margin-top:1px;}
+.callout-title{font-weight:800;font-size:.92rem;margin-bottom:3px;}
+.callout-body{font-size:.85rem;color:#374151;line-height:1.65;}
+.sec-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--orange-d);display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.sec-eyebrow::after{content:'';flex:0 0 28px;height:2px;background:var(--orange);border-radius:2px;}
+.divider{height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);margin:48px 0;opacity:.28;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.grid-auto{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:22px;}
+@media(max-width:860px){.grid-2,.grid-3,.grid-auto{grid-template-columns:1fr;}}
+#capa{background:radial-gradient(ellipse 80% 70% at 50% 40%,#ffedd5 0%,transparent 65%),linear-gradient(180deg,#fff7ed 0%,#fffbeb 100%);display:flex;align-items:center;padding:0;min-height:100vh;}
+.hero-band{position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(180deg,transparent,#fed7aa 35%,#fdba74);border-radius:100% 100% 0 0/40px 40px 0 0;z-index:1;}
+.hero-content{max-width:1140px;margin:0 auto;padding:100px 40px 100px;position:relative;z-index:5;width:100%;}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;background:white;border:2px solid var(--orange);border-radius:30px;padding:6px 18px 6px 10px;font-size:.78rem;font-weight:700;color:var(--orange-d);margin-bottom:24px;}
+.hero-kicker-dot{width:8px;height:8px;border-radius:50%;background:var(--orange);box-shadow:0 0 8px var(--orange);}
+.hero-title{font-family:'Fredoka One',cursive;font-size:clamp(3rem,7vw,6.4rem);line-height:1.0;letter-spacing:-.01em;color:#7c2d12;margin-bottom:20px;}
+.hero-title span{color:var(--orange);}
+.hero-desc{font-size:clamp(.95rem,1.5vw,1.1rem);color:#9a3412;max-width:620px;margin-bottom:40px;line-height:1.75;}
+.hero-tags{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:48px;}
+.hero-facts{display:flex;gap:20px;flex-wrap:wrap;}
+.fact-box{background:white;border-radius:14px;padding:16px 20px;border:2px solid #fed7aa;text-align:center;min-width:120px;box-shadow:0 2px 8px rgba(249,115,22,.12);}
+.fact-num{font-family:'Fredoka One',cursive;font-size:1.9rem;color:var(--orange-d);line-height:1;}
+.fact-label{font-size:.72rem;color:#374151;margin-top:2px;}
+.fixed-nav{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:6px;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border:2px solid #fed7aa;border-radius:50px;padding:7px 14px;z-index:100;box-shadow:0 4px 20px rgba(249,115,22,.2);}
+.n-dot{width:8px;height:8px;border-radius:50%;background:#d1d5db;cursor:pointer;transition:all .2s;}
+.n-dot.active,.n-dot:hover{background:var(--orange);transform:scale(1.4);}
+.toc-row{display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1.5px dashed #fed7aa;text-decoration:none;color:inherit;transition:transform .2s;}
+.toc-row:hover{transform:translateX(8px);}
+.toc-row:hover .toc-title{color:var(--orange-d);}
+.toc-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.toc-num{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#94a3b8;min-width:28px;}
+.toc-title{font-weight:700;font-size:.92rem;flex:1;transition:color .2s;}
+.toc-pg{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#94a3b8;}
+.simple-table{width:100%;border-collapse:collapse;font-size:.84rem;}
+.simple-table th{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;color:#6b7280;border-bottom:2px solid #fed7aa;text-align:left;}
+.simple-table td{padding:11px 14px;border-bottom:1px solid #fed7aa;color:#374151;vertical-align:top;}
+.simple-table tr:hover td{background:rgba(249,115,22,.04);}
+.event-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative;margin:24px 0;}
+.event-node{background:white;border:2px solid #fed7aa;border-radius:14px;padding:14px 10px;text-align:center;}
+.event-title{font-weight:800;font-size:.8rem;color:#9a3412;line-height:1.3;margin-bottom:6px;}
+.event-time{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#7c2d12;}
+.adv-card{background:#f0fdf4;border:2px solid #bbf7d0;border-radius:14px;padding:16px;position:relative;}
+.adv-card::before{content:'✓';position:absolute;top:12px;right:14px;font-size:1.8rem;color:#22c55e;}
+.risk-card{background:#fff1f2;border:2px solid #fecdd3;border-radius:14px;padding:16px;position:relative;}
+.risk-card::before{content:'⚠';position:absolute;top:12px;right:14px;font-size:1.8rem;color:#e11d48;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.float{animation:float 4s ease-in-out infinite;}
+.anim-up{animation:fadeUp .7s ease both;}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
+@media(max-width:980px){.event-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.event-grid{grid-template-columns:1fr;}}
+@media(max-width:1024px){
+  .section{padding:60px 20px 90px;}
+  .hero-content{padding:90px 24px 90px;}
+}
+@media(max-width:768px){
+  .section{padding:54px 16px 86px;min-height:auto;}
+  .page-footer{padding:14px 16px;}
+  .hero-content{padding:78px 16px 88px;}
+  .hero-facts{gap:10px;}
+  .fact-box{min-width:unset;flex:1 1 calc(50% - 10px);padding:12px 10px;}
+  .fact-num{font-size:1.55rem;}
+  .callout{padding:14px 14px;gap:10px;}
+  .card-header,.card-body{padding-left:14px;padding-right:14px;}
+  .toc-row{gap:10px;align-items:flex-start;}
+  .toc-pg{display:none;}
+  .simple-table{display:block;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;}
+  .fixed-nav{left:12px;right:12px;transform:none;bottom:10px;max-width:none;overflow-x:auto;justify-content:flex-start;padding:7px 10px;}
+  .fixed-nav::-webkit-scrollbar{display:none;}
+  #global-nav div{padding:10px 12px !important;gap:6px !important;}
+  #global-nav strong{font-size:.68rem !important;}
+  #global-nav a{font-size:.7rem !important;padding:4px 8px !important;}
+  [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;gap:24px !important;}
+}
+@media(max-width:560px){
+  .fact-box{flex:1 1 100%;}
+}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:#fff7ed;}
+::-webkit-scrollbar-thumb{background:#fdba74;border-radius:3px;}
+</style>
+</head>
+<body>
+<header id="global-nav" style="position:sticky;top:0;z-index:120;background:rgba(15,23,42,.92);backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,255,255,.18);">
+  <div style="max-width:1140px;margin:0 auto;padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+    <strong style="color:#e2e8f0;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;">Navegar:</strong>
+    <a href="cascata-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Cascata</a>
+    <a href="espiral-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Espiral</a>
+    <a href="prototipacao-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Prototipacao</a>
+    <a href="rup-irup-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">RUP/iRUP</a>
+    <a href="scrum-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">Scrum</a>
+    <a href="xp-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">XP</a>
+    <a href="uml-revista-iniciante.html" style="text-decoration:none;color:#f8fafc;border:1px solid rgba(148,163,184,.45);padding:4px 10px;border-radius:999px;font-size:.75rem;">UML</a>
+  </div>
+</header>
+<script>
+(function(){
+  const page = (location.pathname.split('/').pop() || '');
+  document.querySelectorAll('#global-nav a').forEach((a) => {
+    if (a.getAttribute('href') === page) {
+      a.style.background = '#f97316';
+      a.style.color = '#111827';
+      a.style.borderColor = '#fdba74';
+      a.style.fontWeight = '800';
+    }
+  });
+})();
+</script>
+<nav class="fixed-nav" id="nav">
+  <div class="n-dot active" onclick="goTo('#capa')" title="Capa"></div>
+  <div class="n-dot" onclick="goTo('#indice')" title="Indice"></div>
+  <div class="n-dot" onclick="goTo('#visao')" title="Visao geral"></div>
+  <div class="n-dot" onclick="goTo('#papeis')" title="Papeis"></div>
+  <div class="n-dot" onclick="goTo('#eventos')" title="Eventos"></div>
+  <div class="n-dot" onclick="goTo('#artefatos')" title="Artefatos"></div>
+  <div class="n-dot" onclick="goTo('#vantagens')" title="Vantagens"></div>
+  <div class="n-dot" onclick="goTo('#cuidados')" title="Cuidados"></div>
+  <div class="n-dot" onclick="goTo('#final')" title="Conclusao"></div>
+</nav>
+
+<section id="capa" class="section" style="padding:0;min-height:100vh;">
+  <div class="blob blob-o" style="width:520px;height:520px;top:-120px;left:-120px;"></div>
+  <div class="blob blob-t" style="width:300px;height:300px;top:28%;right:-80px;"></div>
+  <div class="hero-content">
+    <div class="hero-kicker anim-up">
+      <div class="hero-kicker-dot"></div>
+      SENAC · 1º Semestre · Engenharia de Software
+    </div>
+    <h1 class="hero-title anim-up d1">
+      Framework <br><span>SCRUM</span> 🏉
+    </h1>
+    <p class="hero-desc anim-up d2">
+      Guia visual para iniciantes: entenda como o Scrum organiza trabalho complexo com ciclos curtos chamados <strong>Sprints</strong>, foco em valor, transparência e melhoria contínua.
+    </p>
+    <div class="hero-tags anim-up d3">
+      <span class="badge badge-orange">Sprints de ate 1 mes</span>
+      <span class="badge badge-teal">Transparencia, Inspecao, Adaptacao</span>
+      <span class="badge badge-yellow">3 Accountabilities</span>
+      <span class="badge badge-green">5 Eventos</span>
+      <span class="badge badge-navy">3 Artefatos + Compromissos</span>
+    </div>
+    <div class="hero-facts anim-up d4">
+      <div class="fact-box float"><div class="fact-num">1</div><div class="fact-label">Objetivo por Sprint</div></div>
+      <div class="fact-box float" style="animation-delay:.3s;"><div class="fact-num">3</div><div class="fact-label">Papeis</div></div>
+      <div class="fact-box float" style="animation-delay:.6s;"><div class="fact-num">5</div><div class="fact-label">Valores</div></div>
+      <div class="fact-box float" style="animation-delay:.9s;"><div class="fact-num">10</div><div class="fact-label">Time tipico ou menos</div></div>
+    </div>
+  </div>
+  <div class="hero-band"></div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<section id="indice" class="section" style="background:white;">
+  <div class="blob blob-b" style="width:300px;height:300px;top:-60px;right:-60px;opacity:.12;"></div>
+  <div class="section-inner">
+    <div class="grid-2" style="gap:60px;align-items:start;">
+      <div>
+        <div class="sec-eyebrow">Sumario</div>
+        <h2 class="f-fun" style="font-size:clamp(2.2rem,5vw,3.8rem);color:#7c2d12;line-height:1;margin-bottom:32px;">
+          O que voce vai<br>aprender?
+        </h2>
+        <div>
+          <a href="#visao" class="toc-row"><div class="toc-icon" style="background:#ffedd5;">🧭</div><span class="toc-num">01</span><span class="toc-title">Visao geral: o que e Scrum</span><span class="toc-pg">P.03</span></a>
+          <a href="#papeis" class="toc-row"><div class="toc-icon" style="background:#ccfbf1;">👥</div><span class="toc-num">02</span><span class="toc-title">Papeis do Scrum Team</span><span class="toc-pg">P.04</span></a>
+          <a href="#eventos" class="toc-row"><div class="toc-icon" style="background:#fef3c7;">🗓️</div><span class="toc-num">03</span><span class="toc-title">Eventos da Sprint</span><span class="toc-pg">P.05</span></a>
+          <a href="#artefatos" class="toc-row"><div class="toc-icon" style="background:#dbeafe;">📦</div><span class="toc-num">04</span><span class="toc-title">Artefatos e compromissos</span><span class="toc-pg">P.06</span></a>
+          <a href="#vantagens" class="toc-row"><div class="toc-icon" style="background:#dcfce7;">✅</div><span class="toc-num">05</span><span class="toc-title">Pontos fortes do framework</span><span class="toc-pg">P.07</span></a>
+          <a href="#cuidados" class="toc-row" style="border-bottom:none;"><div class="toc-icon" style="background:#ffe4e6;">⚠️</div><span class="toc-num">06</span><span class="toc-title">Cuidados para nao descaracterizar o Scrum</span><span class="toc-pg">P.08</span></a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div class="callout callout-info">
+          <div class="callout-icon">📘</div>
+          <div>
+            <div class="callout-title" style="color:#1d4ed8;">Definicao curta</div>
+            <div class="callout-body">Scrum e um framework leve para gerar valor por meio de soluções adaptativas em problemas complexos.</div>
+          </div>
+        </div>
+        <div style="background:white;border-radius:16px;padding:22px;border:2px solid #fed7aa;box-shadow:0 2px 12px rgba(0,0,0,.05);">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#6b7280;letter-spacing:.1em;margin-bottom:14px;">BASE EMPIRICA</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#fff7ed;border-radius:10px;"><span style="font-size:1.3rem;">🔍</span><div><div style="font-weight:800;font-size:.88rem;color:#9a3412;">Transparencia</div><div style="font-size:.75rem;color:#7c2d12;">Todos enxergam o estado real do trabalho</div></div></div>
+            <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#f0fdfa;border-radius:10px;"><span style="font-size:1.3rem;">🧪</span><div><div style="font-weight:800;font-size:.88rem;color:#0f766e;">Inspecao</div><div style="font-size:.75rem;color:#115e59;">Resultados e plano sao revisados com frequencia</div></div></div>
+            <div style="display:flex;gap:12px;align-items:center;padding:12px;background:#eff6ff;border-radius:10px;"><span style="font-size:1.3rem;">🔧</span><div><div style="font-weight:800;font-size:.88rem;color:#1d4ed8;">Adaptacao</div><div style="font-size:.75rem;color:#1e40af;">A equipe corrige rota rapidamente</div></div></div>
+          </div>
+        </div>
+        <div class="callout callout-em">
+          <div class="callout-icon">🧠</div>
+          <div>
+            <div class="callout-title" style="color:#c2410c;">Importante</div>
+            <div class="callout-body">Scrum nao e checklist de reunioes. E um sistema integrado de objetivo, eventos, artefatos e responsabilidade compartilhada.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<section id="visao" class="section ground">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.03 · Visao geral</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#7c2d12;line-height:1;margin-bottom:16px;">O que e Scrum na pratica?</h2>
+    <p style="font-size:.93rem;color:#374151;line-height:1.8;max-width:920px;">No Scrum, o time trabalha em ciclos fixos chamados <strong>Sprints</strong> (com duracao de ate um mes). Cada Sprint deve produzir um <strong>Incremento</strong> util, potencialmente liberavel, aproximando o produto do <strong>Product Goal</strong>.</p>
+    <div class="callout callout-warn" style="margin-top:20px;">
+      <div class="callout-icon">🎯</div>
+      <div>
+        <div class="callout-title" style="color:#92400e;">Foco no valor</div>
+        <div class="callout-body">O framework foi desenhado para ambientes com incerteza. Em vez de tentar prever tudo no inicio, a equipe aprende continuamente por meio de entregas curtas e feedback frequente.</div>
+      </div>
+    </div>
+    <div class="grid-3" style="margin-top:24px;">
+      <div class="diag-card">
+        <div class="card-header"><div class="card-num" style="background:#f97316;">1</div><div class="card-title" style="color:#9a3412;">Planejar</div></div>
+        <div class="card-body">Na Sprint Planning, o time escolhe o que e viavel e cria um plano para atingir um objetivo claro de Sprint.</div>
+      </div>
+      <div class="diag-card">
+        <div class="card-header"><div class="card-num" style="background:#14b8a6;">2</div><div class="card-title" style="color:#0f766e;">Executar</div></div>
+        <div class="card-body">Durante a Sprint, Developers constroem, testam e refinam o trabalho, acompanhando progresso diariamente.</div>
+      </div>
+      <div class="diag-card">
+        <div class="card-header"><div class="card-num" style="background:#3b82f6;">3</div><div class="card-title" style="color:#1d4ed8;">Inspecionar e adaptar</div></div>
+        <div class="card-body">Review e Retrospective permitem inspecionar resultado e processo para ajustar os proximos passos.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<section id="papeis" class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.04 · Scrum Team</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#7c2d12;line-height:1;margin-bottom:22px;">As 3 accountabilities</h2>
+    <div class="grid-auto">
+      <article class="diag-card">
+        <div class="card-header"><div class="card-num" style="background:#f97316;">PO</div><div class="card-title" style="color:#9a3412;">Product Owner</div></div>
+        <div class="card-body">Maximiza o valor do produto. Mantem e ordena o Product Backlog, deixa itens claros e garante alinhamento com o Product Goal.</div>
+      </article>
+      <article class="diag-card">
+        <div class="card-header"><div class="card-num" style="background:#14b8a6;">SM</div><div class="card-title" style="color:#0f766e;">Scrum Master</div></div>
+        <div class="card-body">E responsavel por estabelecer o Scrum como definido no guia. Ajuda time e organizacao a entender teoria e pratica, removendo impedimentos sistemicos.</div>
+      </article>
+      <article class="diag-card">
+        <div class="card-header"><div class="card-num" style="background:#3b82f6;">DEV</div><div class="card-title" style="color:#1d4ed8;">Developers</div></div>
+        <div class="card-body">Profissionais que constroem qualquer aspecto do Incremento. Planejam o trabalho da Sprint e mantem qualidade com Definition of Done.</div>
+      </article>
+    </div>
+    <div class="callout callout-info" style="margin-top:24px;">
+      <div class="callout-icon">👥</div>
+      <div>
+        <div class="callout-title" style="color:#1d4ed8;">Tamanho do time</div>
+        <div class="callout-body">No Scrum Guide, o Scrum Team costuma ter <strong>10 pessoas ou menos</strong>. A ideia e manter comunicacao fluida e foco no objetivo comum.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<section id="eventos" class="section ground">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.05 · Eventos</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#7c2d12;line-height:1;margin-bottom:12px;">Os 5 eventos do Scrum</h2>
+    <p style="font-size:.92rem;color:#374151;line-height:1.75;max-width:930px;">Todos os eventos acontecem dentro da Sprint para criar ritmo de inspecao e adaptacao. A Sprint e o evento-container de todos os demais.</p>
+    <div class="event-grid">
+      <div class="event-node"><div class="event-title">Sprint</div><div class="event-time">Ciclo de ate 1 mes</div></div>
+      <div class="event-node"><div class="event-title">Sprint Planning</div><div class="event-time">Define objetivo e plano</div></div>
+      <div class="event-node"><div class="event-title">Daily Scrum</div><div class="event-time">15 minutos diarios</div></div>
+      <div class="event-node"><div class="event-title">Sprint Review</div><div class="event-time">Inspeciona incremento e adapta backlog</div></div>
+      <div class="event-node"><div class="event-title">Sprint Retrospective</div><div class="event-time">Melhora processo e colaboracao</div></div>
+    </div>
+    <div class="divider"></div>
+    <div class="grid-2">
+      <div class="callout callout-em" style="margin:0;">
+        <div class="callout-icon">🗓️</div>
+        <div>
+          <div class="callout-title" style="color:#c2410c;">Ritmo sustentavel</div>
+          <div class="callout-body">Sprint com duracao fixa ajuda previsibilidade. Trocar escopo no meio sem criterio quebra foco e reduz aprendizado empirico.</div>
+        </div>
+      </div>
+      <div class="callout callout-info" style="margin:0;">
+        <div class="callout-icon">📈</div>
+        <div>
+          <div class="callout-title" style="color:#1d4ed8;">Inspecao frequente</div>
+          <div class="callout-body">Com checkpoints claros, desvios aparecem cedo. Isso permite adaptar antes que o custo de correcao fique alto.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<section id="artefatos" class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.06 · Artefatos</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#7c2d12;line-height:1;margin-bottom:20px;">Artefatos e seus compromissos</h2>
+    <div style="background:white;border:2px solid #fed7aa;border-radius:14px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04);">
+      <table class="simple-table">
+        <thead>
+          <tr><th>Artefato</th><th>Para que serve</th><th>Compromisso associado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Product Backlog</td><td>Lista ordenada e evolutiva do que pode gerar valor no produto.</td><td>Product Goal</td></tr>
+          <tr><td>Sprint Backlog</td><td>Itens escolhidos para a Sprint mais o plano de trabalho dos Developers.</td><td>Sprint Goal</td></tr>
+          <tr><td>Increment</td><td>Soma de tudo concluido na Sprint que atende ao padrao de qualidade.</td><td>Definition of Done</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout-warn" style="margin-top:24px;">
+      <div class="callout-icon">🧩</div>
+      <div>
+        <div class="callout-title" style="color:#92400e;">Sem compromisso, perde clareza</div>
+        <div class="callout-body">No Scrum, cada artefato vem com um compromisso explicito para aumentar transparencia. Se isso e ignorado, o framework vira apenas ritual.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<section id="vantagens" class="section ground">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.07 · Beneficios</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#7c2d12;line-height:1;margin-bottom:20px;">Por que Scrum funciona bem?</h2>
+    <div class="grid-3">
+      <div class="adv-card"><div style="font-weight:800;color:#166534;margin-bottom:7px;">Entrega frequente</div><div style="font-size:.85rem;line-height:1.7;color:#374151;">Incrementos curtos reduzem risco de construir por meses sem validar valor real com stakeholders.</div></div>
+      <div class="adv-card"><div style="font-weight:800;color:#166534;margin-bottom:7px;">Adaptacao rapida</div><div style="font-size:.85rem;line-height:1.7;color:#374151;">Mudancas de prioridade entram no backlog e sao avaliadas sprint a sprint com transparencia.</div></div>
+      <div class="adv-card"><div style="font-weight:800;color:#166534;margin-bottom:7px;">Aprendizado continuo</div><div style="font-size:.85rem;line-height:1.7;color:#374151;">Review e Retrospective aceleram aprendizado tecnico, de produto e de colaboracao do time.</div></div>
+    </div>
+    <div class="callout callout-info" style="margin-top:24px;">
+      <div class="callout-icon">🧭</div>
+      <div>
+        <div class="callout-title" style="color:#1d4ed8;">Valores do Scrum</div>
+        <div class="callout-body">Compromisso, foco, abertura, respeito e coragem sustentam comportamento do time. Sem esses valores, os eventos perdem efetividade.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<section id="cuidados" class="section" style="background:white;">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.08 · Cuidados</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#7c2d12;line-height:1;margin-bottom:20px;">Erros comuns de implementacao</h2>
+    <div class="grid-3">
+      <div class="risk-card"><div style="font-weight:800;color:#be123c;margin-bottom:7px;">Daily virando status para gestor</div><div style="font-size:.85rem;line-height:1.7;color:#374151;">O Daily Scrum e para os Developers inspecionarem progresso e ajustarem plano, nao reuniao de cobranca.</div></div>
+      <div class="risk-card"><div style="font-weight:800;color:#be123c;margin-bottom:7px;">Sprint sem objetivo claro</div><div style="font-size:.85rem;line-height:1.7;color:#374151;">Sem Sprint Goal, o time fica em modo tarefa e perde coerencia de entrega.</div></div>
+      <div class="risk-card"><div style="font-weight:800;color:#be123c;margin-bottom:7px;">Review sem stakeholders reais</div><div style="font-size:.85rem;line-height:1.7;color:#374151;">Sem feedback de quem decide valor, backlog nao evolui com base em evidencias.</div></div>
+    </div>
+    <div class="callout callout-em" style="margin-top:24px;">
+      <div class="callout-icon">🛠️</div>
+      <div>
+        <div class="callout-title" style="color:#c2410c;">Regra de ouro</div>
+        <div class="callout-body">Adotar Scrum exige mudanca de comportamento organizacional. Copiar cerimonias sem autonomia, qualidade e colaboracao gera apenas uma versao fragil do framework.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<section id="final" class="section ground">
+  <div class="section-inner">
+    <div class="sec-eyebrow">P.09 · Conclusao</div>
+    <h2 class="f-fun" style="font-size:clamp(2rem,4.5vw,3.5rem);color:#7c2d12;line-height:1;margin-bottom:28px;">Resumo final sobre Scrum</h2>
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div style="background:white;border:2px solid #fed7aa;border-radius:14px;padding:18px;">
+        <div style="font-weight:800;color:#9a3412;margin-bottom:8px;font-size:.95rem;">Essencia</div>
+        <div style="font-size:.86rem;color:#374151;line-height:1.7;">Scrum e um framework empirico para trabalhar com incerteza, entregar valor em ciclos curtos e evoluir continuamente produto e processo.</div>
+      </div>
+      <div style="background:white;border:2px solid #bfdbfe;border-radius:14px;padding:18px;">
+        <div style="font-weight:800;color:#1d4ed8;margin-bottom:8px;font-size:.95rem;">Aplicacao real</div>
+        <div style="font-size:.86rem;color:#374151;line-height:1.7;">Funciona melhor quando existe colaboracao entre negocio e desenvolvimento, definicao clara de pronto e disciplina para inspecionar e adaptar.</div>
+      </div>
+    </div>
+    <div class="callout callout-info">
+      <div class="callout-icon">📚</div>
+      <div>
+        <div class="callout-title" style="color:#1d4ed8;">Base de validacao</div>
+        <div class="callout-body">A base local em <strong>.github/knowledge</strong> nao possui um arquivo dedicado de Scrum neste workspace. Por isso, o conteudo foi validado principalmente com o <strong>Scrum Guide 2020</strong> e complementado com material introdutorio da Atlassian para didatica.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="page-footer">
+  <div class="footer-inner">
+    <div class="footer-text">Acesse e se inscreva no canal do <strong>Prof. Edilberto Silva</strong></div>
+    <a href="https://youtube.com/@prof.edilberto-facildemais?si=om8Y0A_ZfcPzLNZU" target="_blank" class="footer-yt">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><path fill="#FF0000" d="M23.5 2.5S23.2.7 22.4 0c-.9-.9-1.9-.9-2.3-1C16.8-1 12 0 12 0S7.2-1 4-.1C3.5 0 2.5 0 1.6.9.8 1.7.5 2.5.5 2.5S.2 4.4 0 6.3v1.8c0 1.9.5 3.8.5 3.8s.3 1.8 1.1 2.5c1 .9 2.2.8 2.8.9C6.3 15.3 12 15 12 15s4.8 0 8-.1c.5 0 1.5-.1 2.4-1 .8-.7 1.1-2.5 1.1-2.5s.5-1.9.5-3.8V6.3C24 4.4 23.5 2.5 23.5 2.5z"/><path fill="#FFF" d="M9.5 11V4.5l6.5 3.3z"/></svg>
+      <span>@prof.edilberto-facildemais</span>
+    </a>
+  </div>
+</footer>
+
+<script>
+function goTo(selector) {
+  const el = document.querySelector(selector);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' });
+    updateNav();
+  }
+}
+
+function updateNav() {
+  const sections = document.querySelectorAll('section[id]');
+  const dots = document.querySelectorAll('.n-dot');
+  const scrollPos = window.scrollY + 100;
+  let active = 0;
+  sections.forEach((section, idx) => {
+    if (section.offsetTop <= scrollPos) active = idx;
+  });
+  dots.forEach(d => d.classList.remove('active'));
+  if (dots[active]) dots[active].classList.add('active');
+}
+
+window.addEventListener('scroll', updateNav);
+updateNav();
+</script>
+</body>
+</html>
